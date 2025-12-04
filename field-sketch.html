@@ -25,6 +25,39 @@
             line-height: 1.6;
         }
 
+        /* 로딩 스피너 */
+        .page-loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s, visibility 0.5s;
+        }
+
+        .page-loader.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 3px solid rgba(200, 255, 61, 0.3);
+            border-top-color: #c8ff3d;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
         /* 네비게이션 바 */
         nav {
             position: fixed;
@@ -471,6 +504,11 @@
     </style>
 </head>
 <body>
+    <!-- 로딩 스피너 -->
+    <div class="page-loader" id="pageLoader">
+        <div class="spinner"></div>
+    </div>
+
     <!-- 네비게이션 바 -->
     <nav>
         <div class="nav-container">
@@ -500,9 +538,9 @@
         <section class="section">
             <h2 class="section-title">Making Film</h2>
             <div class="video-container">
-                <video controls>
+                <video controls preload="metadata" poster="">
                     <source src="현장스케치.mp4" type="video/mp4">
-                    브라우저가 비디오 태그를 지원하지 않습니다.
+                    브라우저가 비디오를 지원하지 않습니다.
                 </video>
             </div>
         </section>
@@ -536,6 +574,12 @@
     </div>
 
     <script>
+        // 페이지 로딩 완료시 스피너 제거
+        window.addEventListener('load', function() {
+            const loader = document.getElementById('pageLoader');
+            loader.classList.add('hidden');
+        });
+
         let currentImageIndex = 0;
         let imageList = [];
 
