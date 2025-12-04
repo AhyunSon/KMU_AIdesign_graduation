@@ -1,599 +1,433 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AIxD 제 1회 졸업전시 'NULL'</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AIxD 1st Degree Show - Start</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { height: 100%; }
+    body { background: #000; color: #fff; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Malgun Gothic', sans-serif; }
 
-        body {
-            background-color: black;
-            height: 100vh;
-            width: 100vw;
-            overflow: hidden;
-            position: relative;
-            cursor: pointer;
-        }
+    :root {
+      --gradient-x1: 0%;
+      --gradient-x2: 100%;
+    }
 
-        .svg-container {
-            position: absolute;
-            transition: all 0.3s ease;
-            opacity: 0; /* 처음에는 숨김 */
-            animation: none; /* 처음에는 애니메이션 없음 */
-        }
+    @font-face {
+      font-family: 'Offbit';
+      src: url('OffBitTrial-Regular.otf') format('opentype');
+      font-weight: normal;
+      font-style: normal;
+    }
 
-        .svg-container.visible {
-            opacity: 1; /* 보이게 됨 */
-            animation: float 3s ease-in-out infinite; /* 보이게 되면 애니메이션 시작 */
-        }
+    @font-face {
+      font-family: 'Offbit';
+      src: url('OffBitTrial-Bold.otf') format('opentype');
+      font-weight: bold;
+      font-style: normal;
+    }
 
-        .svg-container:hover {
-            transform: translateY(-5px);
-            filter: brightness(1.2) drop-shadow(0 5px 15px rgba(0,0,0,0.3));
-        }
-        
-        .svg-container:active {
-            animation-play-state: paused; /* 클릭 시 애니메이션 일시정지 */
-        }
+    /* Fullscreen hero image container */
+    .hero {
+      position: relative;
+      width: 100vw; height: 100vh;
+      overflow: hidden;
+      background: #000 center/cover no-repeat;
+    }
 
+    /* SVG background */
+    .hero {
+      background: url('landing.svg') center/cover no-repeat;
+    }
+    .hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: rgba(0, 0, 0, 0.3);
+      z-index: 1;
+    }
 
-        /* 클릭 시 도망가는 애니메이션 */
-        .svg-container.escape {
-            animation: escape 0.5s ease-out forwards;
-        }
+    /* Title SVG with interactive gradient */
+    .title-image {
+      position: absolute;
+      left: 50%;
+      top: 35%;
+      transform: translate(-50%, -50%);
+      z-index: 10;
+      max-width: 50%;
+      height: auto;
+      filter: drop-shadow(0 0 0 transparent);
+    }
 
-        @keyframes escape {
-            0% {
-                transform: translateY(0px) rotate(0deg);
-                opacity: 1;
-            }
-            50% {
-                transform: translateY(-50px) rotate(180deg) scale(0.8);
-                opacity: 0.7;
-            }
-            100% {
-                transform: translateY(-100px) rotate(360deg) scale(0.3);
-                opacity: 0;
-            }
-        }
+    .title-image svg {
+      width: 100%;
+      height: auto;
+    }
 
-        /* 둥둥 떠다니는 애니메이션 */
-        @keyframes float {
-            0%, 100% {
-                transform: translateY(0px) rotate(0deg);
-            }
-            25% {
-                transform: translateY(-10px) rotate(1deg);
-            }
-            50% {
-                transform: translateY(-5px) rotate(0deg);
-            }
-            75% {
-                transform: translateY(-15px) rotate(-1deg);
-            }
-        }
+    .title-image linearGradient {
+      x1: var(--gradient-x1);
+      x2: var(--gradient-x2);
+    }
 
-        /* 각 명함마다 다른 애니메이션 타이밍 (짧은 지연) */
-        #svg-container1 {
-            animation-delay: 0s;
-            animation-duration: 3s;
-        }
+    /* Text container - positioned below title */
+    .text-container {
+      position: absolute;
+      left: 50%;
+      top: 52%;
+      transform: translate(-50%, -50%);
+      z-index: 10;
+      max-width: 50%;
+      width: auto;
+      position: relative;
+    }
 
-        #svg-container2 {
-            animation-delay: 0.1s;
-            animation-duration: 3s;
-        }
+    /* Blank background - always visible */
+    .text-blank {
+      position: relative;
+      width: 100%;
+      height: auto;
+      display: block;
+    }
 
-        #svg-container3 {
-            animation-delay: 0.2s;
-            animation-duration: 3s;
-        }
-        #svg-container4 {
-            animation-delay: 0.3s;
-            animation-duration: 3s;
-        }
-        
-        #svg-container5 {
-            animation-delay: 0.4s;
-            animation-duration: 3s;
-        }
-        
-        #svg-container6 {
-            animation-delay: 0.5s;
-            animation-duration: 3s;
-        }
-        
-        #svg-container7 {
-            animation-delay: 0.6s;
-            animation-duration: 3s;
-        }
-        
-        #svg-container8 {
-            animation-delay: 0.7s;
-            animation-duration: 3s;
-        }
-        
-        #svg-container9 {
-            animation-delay: 0.8s;
-            animation-duration: 3s;
-        }
-        
-        #svg-container10 {
-            animation-delay: 0.9s;
-            animation-duration: 3s;
-        }
-        
-        
-        #svg-container11 {
-            animation-delay: 1.0s;
-            animation-duration: 3s;
-        }
-        
-        #svg-container12 {
-            animation-delay: 1.1s;
-            animation-duration: 3s;
-        }
-        
-        #svg-container13 {
-            animation-delay: 1.2s;
-            animation-duration: 3s;
-        }
-        
-        #svg-container14 {
-            animation-delay: 1.3s;
-            animation-duration: 3s;
-        }
-        
-        #svg-container15 {
-            animation-delay: 1.4s;
-            animation-duration: 3s;
-        }
-        
-        #svg-container16 {
-            animation-delay: 1.5s;
-            animation-duration: 3s;
-        }
+    /* Animated text layers */
+    .text-layer {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) translateY(20px);
+      width: 90%;
+      height: auto;
+      opacity: 0;
+      animation: slideUp 18s infinite;
+    }
 
-        .svg-container img {
-            max-width: 200px;
-            max-height: 200px;
-            width: auto;
-            height: auto;
-            /* 성능 최적화 */
-            will-change: transform;
-            -webkit-backface-visibility: hidden;
-            backface-visibility: hidden;
-            -webkit-transform: translateZ(0);
-            transform: translateZ(0);
-            /* 이미지 렌더링 최적화 */
-            image-rendering: auto;
-            image-rendering: optimizeQuality;
-            /* 부드러운 렌더링 */
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-        }
+    .text-layer:nth-child(2) { animation-delay: 0s; }   /* null */
+    .text-layer:nth-child(3) { animation-delay: 6s; }   /* kr */
+    .text-layer:nth-child(4) { animation-delay: 12s; }   /* en */
 
-        /* 모바일 최적화 */
-        @media screen and (max-width: 768px) {
-            .svg-container {
-                animation-duration: 4s; /* 모바일에서 애니메이션 느리게 */
-            }
-            
-            .svg-container img {
-                width: 80px;
-                height: auto;
-                image-rendering: optimizeSpeed;
-                image-rendering: -webkit-optimize-contrast;
-                image-rendering: crisp-edges;
-                /* 모바일 성능 최적화 */
-                -webkit-transform: translateZ(0);
-                transform: translateZ(0);
-                will-change: auto; /* 애니메이션 최적화 */
-            }
-            
-            /* 모바일에서 박승준 명함 크기 키우기 */
-            #svg-container1 img {
-                width: 120px;
-                height: auto;
-                image-rendering: auto;
-                image-rendering: optimizeQuality;
-                -webkit-font-smoothing: antialiased;
-                -moz-osx-font-smoothing: grayscale;
-            }
-            
-            /* 모바일에서 keep 명함 크기 줄이기 */
-            #svg-container11 img {
-                width: 60px;
-                height: auto;
-            }
-            
-            /* 모바일에서 im 명함 크기 줄이기 */
-            #svg-container7 img {
-                width: 60px;
-                height: auto;
-            }
-        }
+    @keyframes slideUp {
+      0%, 5.55% {
+        opacity: 0;
+        transform: translate(-50%, -50%) translateY(20px);
+      }
+      11.11%, 27.77% {
+        opacity: 1;
+        transform: translate(-50%, -50%) translateY(0);
+      }
+      33.33%, 100% {
+        opacity: 0;
+        transform: translate(-50%, -50%) translateY(-20px);
+      }
+    }
 
-        @media screen and (min-width: 769px) {
-            /* 박승준 명함만 크기 키우기 */
-            #svg-container1 img {
-                max-width: 280px;
-                max-height: 280px;
-            }
+    /* Bottom footer bar */
+    .footer {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background-color: #c8ff3d;
+      padding: 16px 24px;
+      text-align: center;
+      z-index: 10;
+    }
 
-            /* 김동규 명함 크기 줄이기 */
-            #svg-container2 img {
-                max-width: 150px;
-                max-height: 150px;
-            }
+    .footer-text {
+      font-family: 'Offbit', monospace;
+      font-size: 20px;
+      font-weight: bold;
+      color: #000;
+      letter-spacing: 1px;
+    }
 
-            /* 소릿 명함 크기 설정 */
-            #svg-container3 img {
-                max-width: 200px;
-                max-height: 200px;
-            }
+    /* Start button */
+    .start-button {
+      font-family: 'Offbit', monospace;
+      font-weight: bold;
+      background: transparent;
+      border: none;
+      color: #c8ff3d;
+      padding: 0;
+      font-size: 32px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
 
-            /* 쿠 명함 크기 설정 */
-            #svg-container4 img {
-                max-width: 180px;
-                max-height: 180px;
-            }
+    .start-button:hover {
+      color: #fff;
+      text-decoration: underline;
+    }
 
-            /* keep 명함 크기 설정 (다른 것보다 작게) */
-            #svg-container11 img {
-                max-width: 120px;
-                max-height: 120px;
-            }
+    /* Pixel Transition Grid */
+    .pixel-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: grid;
+      grid-template-columns: repeat(var(--columns, 12), 1fr);
+      gap: 0;
+      z-index: 9999;
+      pointer-events: none;
+      opacity: 0;
+    }
 
-            /* im 명함 크기 줄이기 */
-            #svg-container7 img {
-                max-width: 140px;
-                max-height: 140px;
-            }
-        }
-    </style>
+    .pixel-overlay.active {
+      pointer-events: auto;
+      opacity: 1;
+    }
+
+    .pixel-cell {
+      background-color: rgba(200, 255, 61, 0.95);
+      width: 100%;
+      height: 100%;
+    }
+
+    /* Info images next to START button */
+    .info-container {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 82%;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 30px;
+    }
+
+    .info-image {
+      height: 60px;
+      width: auto;
+      opacity: 0.8;
+    }
+
+    .info-image.left {
+      order: 1;
+    }
+
+    .start-button-wrapper {
+      order: 2;
+    }
+
+    .info-image.right {
+      order: 3;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .title-image {
+        max-width: 70%;
+        top: 30%;
+      }
+      .text-container {
+        max-width: 70%;
+        top: 48%;
+      }
+      .start-button {
+        font-size: 24px;
+      }
+      .info-container {
+        top: 72%;
+      }
+    }
+
+    @media (max-width: 900px) {
+      .info-image {
+        display: none;
+      }
+    }
+  </style>
 </head>
 <body>
-    <div id="svg-container1" class="svg-container">
-        <img src="박승준명함.svg" alt="박승준명함" onclick="goToParkPage()">
-    </div>
-    
-    <div id="svg-container2" class="svg-container">
-        <img src="kim_card.svg" alt="김동규명함" onclick="goToKimPage()">
-    </div>
-    
-    <div id="svg-container3" class="svg-container">
-        <img src="sorit.svg" alt="소릿명함" onclick="goToSoritPage()">
-    </div>
-    
-    <div id="svg-container4" class="svg-container">
-        <img src="cu.svg" alt="쿠명함" onclick="goToCussemblePage()">
-    </div>
-    
-    <div id="svg-container5" class="svg-container">
-        <img src="HH.svg" alt="HH명함" onclick="goToDistortPage()">
-    </div>
-    
-    <div id="svg-container6" class="svg-container">
-        <img src="SEN.svg" alt="SEN명함" onclick="goToSenselPage()">
-    </div>
-    
-    <div id="svg-container7" class="svg-container">
-        <img src="im.svg" alt="im명함" onclick="goToFmxisAnastasisPage()">
-    </div>
-    
-    <div id="svg-container8" class="svg-container">
-        <img src="car.svg" alt="car명함" onclick="goToCareerFitPage()">
-    </div>
-    
-    <div id="svg-container9" class="svg-container">
-        <img src="sno.svg" alt="sno명함" onclick="goToSnoverPage()">
-    </div>
-    
-    <div id="svg-container10" class="svg-container">
-        <img src="ga.svg" alt="ga명함" onclick="goToCachePage()">
-    </div>
-    
-    <div id="svg-container11" class="svg-container">
-        <img src="keep.svg" alt="keep명함" onclick="goToKeepYourMomentPage()">
-    </div>
-    
-    <div id="svg-container12" class="svg-container">
-        <img src="you.svg" alt="you명함" onclick="goToTehePage()">
-    </div>
-    
-    <div id="svg-container13" class="svg-container">
-        <img src="unun.svg" alt="unun명함" onclick="goToUnknownPage()">
-    </div>
-    
-    <div id="svg-container14" class="svg-container">
-        <img src="jj.svg" alt="jj명함" onclick="goToInframePage()">
-    </div>
-    
-    <div id="svg-container15" class="svg-container">
-        <img src="II.svg" alt="II명함" onclick="goToJingzhongdongPage()">
-    </div>
-    
-    <div id="svg-container16" class="svg-container">
-        <img src="kee.svg" alt="kee명함" onclick="goToKeeplePage()">
+  <div class="hero">
+    <div class="title-image" id="titleWrapper">
+      <svg width="1200" height="211" viewBox="0 0 1200 211" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="interactiveGradient" x1="0" y1="0" x2="1200" y2="0" gradientUnits="userSpaceOnUse">
+            <stop offset="0" style="stop-color:#C5C5C5;stop-opacity:1"/>
+            <stop offset="30%" style="stop-color:#D5D5D5;stop-opacity:0.8"/>
+            <stop offset="50%" style="stop-color:#E8E8E8;stop-opacity:1"/>
+            <stop offset="70%" style="stop-color:#D5D5D5;stop-opacity:0.8"/>
+            <stop offset="1200" style="stop-color:#C5C5C5;stop-opacity:1"/>
+          </linearGradient>
+        </defs>
+        <path d="M1055.17 106.164H1071.31V122.274H1079.38V138.234H1087.45V162.399H1103.45V138.234H1111.52V122.274H1119.59V106.164H1135.73V122.274H1143.65V138.234H1151.72V162.399H1167.87V138.234H1175.94V122.274H1184.01V106.164H1200V122.274H1192.08V138.234H1184.01V162.399H1175.94V186.414H1167.87V210.578H1151.72V186.414H1143.65V162.399H1135.58V138.234H1119.59V162.399H1111.52V186.414H1103.45V210.578H1087.3V186.414H1079.38V162.399H1071.31V138.234H1063.24V122.274H1055.17V106.164Z" fill="url(#interactiveGradient)"/>
+        <path d="M991.085 130.329V146.14H983.014V170.603H991.085V186.414H999.156V194.469H1023.22V186.414H1031.29V170.603H1039.36V146.14H1031.29V130.329H1023.22V122.274H999.156V130.329H991.085ZM974.942 178.508H966.871V138.234H974.942V122.274H983.014V114.219H991.085V106.164H1031.29V114.219H1039.21V122.274H1047.28V138.234H1055.36V178.508H1047.28V194.469H1039.21V202.524H1031.29V210.578H991.085V202.524H983.014V194.469H974.942V178.508Z" fill="url(#interactiveGradient)"/>
+        <path d="M886.441 106.164H902.285V154.344H942.641V106.164H958.783V210.578H942.641V170.453H902.285V210.578H886.441V106.164Z" fill="url(#interactiveGradient)"/>
+        <path d="M806.059 146.289H797.988V122.274H806.059V114.219H813.981V106.164H862.409V114.219H870.33V122.274H878.402V138.383H862.259V130.329H854.337V122.274H822.052V130.329H813.981V138.234H822.052V146.289H862.409V154.344H870.33V162.399H878.402V194.469H870.33V202.524H862.409V210.578H813.981V202.524H806.059V194.469H797.988V178.508H813.981V186.414H822.052V194.469H854.337V186.414H862.409V170.453H854.487V162.399H813.981V154.344H806.059V146.289Z" fill="url(#interactiveGradient)"/>
+        <path d="M672.602 106.164H745.093V122.274H688.744V146.289H737.022V162.399H688.744V194.469H745.093V210.578H672.602V106.164Z" fill="url(#interactiveGradient)"/>
+        <path d="M592.023 106.164H664.515V122.274H608.166V146.289H656.444V162.399H608.166V194.469H664.515V210.578H592.023V106.164Z" fill="url(#interactiveGradient)"/>
+        <path d="M519.721 122.274V154.344H559.778V146.289H567.849V130.329H559.778V122.274H519.721ZM503.578 106.164H567.849V114.219H575.92V122.274H583.991V154.344H575.92V162.399H567.849V170.453H575.92V178.508H583.991V210.578H567.849V186.414H559.778V178.508H551.707V170.453H519.721V210.578H503.578V106.164Z" fill="url(#interactiveGradient)"/>
+        <path d="M423.385 202.524H415.313V194.618H407.242V122.274H415.313V114.219H423.385V106.164H479.584V114.219H487.506V122.274H495.577V146.289H479.584V130.329H471.663V122.274H431.456V130.329H423.385V186.414H431.456V194.469H455.52V186.414H463.591V178.508H471.513V170.453H455.371V154.344H495.577V210.578H479.584V194.618H471.663V202.673H463.591V210.578H423.385V202.524Z" fill="url(#interactiveGradient)"/>
+        <path d="M326.664 106.164H399.156V122.274H342.807V146.289H391.084V162.399H342.807V194.469H399.156V210.578H326.664V106.164Z" fill="url(#interactiveGradient)"/>
+        <path d="M238.219 106.164H294.568V114.219H302.49V122.274H310.561V130.329H318.632V186.414H310.561V194.469H302.49V202.524H294.568V210.578H238.219V106.164ZM254.212 122.274V194.469H286.497V186.414H294.568V178.359H302.639V138.383H294.568V130.329H286.497V122.274H254.212Z" fill="url(#interactiveGradient)"/>
+        <path d="M145.029 154.344H128.887V138.234H136.958V130.328H145.029V114.219H161.172V130.328H153.1V138.234H185.385V154.344H161.172V194.469H169.243V186.414H185.385V202.523H177.314V210.578H153.1V202.523H145.029V154.344Z" fill="url(#interactiveGradient)"/>
+        <path d="M64.4111 194.464H56.4893V178.355H72.4823V186.41H80.5535V194.464H104.767V186.41H96.696V178.504H80.5535V170.449H64.4111V162.394H56.3398V146.285H64.4111V138.23H72.4823V130.324H104.767V138.23H112.838V146.285H120.76V162.245H104.767V154.19H96.696V146.136H72.4823V154.34H80.5535V162.394H96.696V170.449H112.838V178.504H120.76V194.464H112.838V202.519H104.767V210.574H72.4823V202.519H64.4111V194.464Z" fill="url(#interactiveGradient)"/>
+        <path d="M0 122.274H8.07122V114.219H16.1425V106.164H32.2849V194.469H48.2779V210.578H0V194.469H16.1425V130.329H8.07122V138.383H0V122.274Z" fill="url(#interactiveGradient)"/>
+        <path d="M954.187 32.8681V55.3627H946.852V0.917969H956.326L985.285 45.9836C985.132 39.1208 985.056 32.258 985.056 25.3952V0.917969H992.391V55.3627H982.916L953.958 10.2971C954.11 17.8462 954.187 25.3952 954.187 32.8681Z" fill="url(#interactiveGradient)"/>
+        <path d="M936.467 27.1461V55.3598H930.048V43.1593C927.756 51.0134 921.108 56.2749 911.557 56.2749C896.734 56.2749 886.113 45.0656 886.113 28.1374C886.113 11.2855 897.193 0 913.238 0C925.846 0 935.779 7.09155 936.008 17.8432H928.978C927.985 10.7517 921.567 6.40527 913.238 6.40527C902.083 6.40527 893.601 14.7931 893.601 28.1374C893.601 41.4817 901.777 49.8696 912.474 49.8696C922.484 49.8696 929.131 43.2356 929.131 34.3139V33.3989H913.009V27.1461H936.467Z" fill="url(#interactiveGradient)"/>
+        <path d="M870.07 0.917969H877.406V55.3627H870.07V0.917969Z" fill="url(#interactiveGradient)"/>
+        <path d="M817.465 38.4316H824.418C824.877 45.9807 830.607 50.0983 840.464 50.0983C849.786 50.0983 854.676 46.3619 854.676 40.948C854.676 34.8477 849.404 32.4076 839.547 30.73C826.252 28.4424 819.222 25.1636 819.222 14.6406C819.222 6.024 826.863 0 839.47 0C852.078 0 860.024 5.41398 860.024 16.5469H853.071C852.766 9.91292 848.028 6.17651 839.47 6.17651C831.066 6.17651 826.557 9.07413 826.557 14.1831C826.557 20.2071 831.906 22.4947 841.075 24.0198C854.065 26.2311 862.011 29.8913 862.011 40.4142C862.011 50.0221 853.835 56.2749 840.464 56.2749C825.717 56.2749 817.465 49.6408 817.465 38.4316Z" fill="url(#interactiveGradient)"/>
+        <path d="M776.727 0.917969H811.34V7.17073H784.062V23.7177H808.283V29.9704H784.062V49.11H812.868V55.3627H776.727V0.917969Z" fill="url(#interactiveGradient)"/>
+        <path d="M721.145 0.917969H739.635C754.611 0.917969 768.059 10.1446 768.059 28.2166C768.059 46.2886 754.611 55.3627 739.635 55.3627H721.145V0.917969ZM728.48 49.11H739.33C750.18 49.11 760.571 42.476 760.571 28.2166C760.571 13.9573 750.18 7.17073 739.33 7.17073H728.48V49.11Z" fill="url(#interactiveGradient)"/>
+        <path d="M684.305 46.9727H692.862V55.3605H684.305V46.9727Z" fill="url(#interactiveGradient)"/>
+        <path d="M667.051 0.917969H674.386V55.3627H667.051V0.917969Z" fill="url(#interactiveGradient)"/>
+        <path d="M648.559 46.9727H657.116V55.3605H648.559V46.9727Z" fill="url(#interactiveGradient)"/>
+        <path d="M614.625 0.917969H624.099L644.118 55.3627H636.019L631.052 40.7221H607.213L602.246 55.3627H594.605L614.625 0.917969ZM609.2 34.6219H629.066L619.362 6.25569H618.903L609.2 34.6219Z" fill="url(#interactiveGradient)"/>
+        <path d="M526.375 0.917969H533.71V32.3343C533.71 44.1535 539.135 49.8725 548.457 49.8725C557.855 49.8725 562.822 44.1535 562.822 32.3343V0.917969H570.157V32.3343C570.157 47.6612 562.822 56.2778 548.457 56.2778C534.092 56.2778 526.375 47.7374 526.375 32.3343V0.917969Z" fill="url(#interactiveGradient)"/>
+        <path d="M480.462 55.3627L463.652 6.25569H463.576C463.728 14.8723 463.728 23.4127 463.728 32.0293V55.3627H456.852V0.917969H469.23L485.581 49.9488L502.009 0.917969H514.769V55.3627H507.434V32.0293C507.434 23.4127 507.434 14.8723 507.587 6.25569H507.434L490.701 55.3627H480.462Z" fill="url(#interactiveGradient)"/>
+        <path d="M402.527 0.917969H409.863V27.3016L437.752 0.917969H447.379L420.254 25.7003L449.519 55.3627H439.967L415.44 29.8942L409.863 34.9269V55.3627H402.527V0.917969Z" fill="url(#interactiveGradient)"/>
+        <path d="M342.086 39.9596C342.85 46.3649 348.505 50.1775 355.534 50.1775C363.328 50.1775 368.294 45.0686 368.294 37.7483C368.294 30.428 363.328 25.624 355.687 25.624C351.485 25.624 347.358 27.3778 344.837 29.8179H338.113L340.405 0.917969H372.879V6.86572H346.212L344.531 24.4802C347.741 21.2013 351.943 19.5237 356.986 19.5237C367.225 19.5237 375.477 26.6153 375.477 37.7483C375.477 48.5 367.301 56.2778 355.763 56.2778C343.844 56.2778 336.508 49.5675 335.668 39.9596H342.086Z" fill="url(#interactiveGradient)"/>
+        <path d="M298.134 17.8432H291.715C292.25 7.77783 299.433 0 310.894 0C322.661 0 329.538 6.71028 329.538 16.7757C329.538 25.0873 325.335 33.2464 310.13 43.4643L301.266 49.4121H330.76V55.3598H291.562V50.3271L305.01 40.2617C318.153 30.425 322.355 24.0198 322.355 17.3857C322.355 10.5992 318 6.10025 310.665 6.10025C304.093 6.10025 298.898 9.91292 298.134 17.8432Z" fill="url(#interactiveGradient)"/>
+        <path d="M279.471 28.1374C279.471 12.5055 273.053 6.10025 265.641 6.10025C258.23 6.10025 251.811 12.5055 251.811 28.1374C251.811 43.7693 258.23 50.1746 265.641 50.1746C273.053 50.1746 279.471 43.7693 279.471 28.1374ZM244.629 28.1374C244.629 9.22664 253.874 0 265.641 0C277.408 0 286.654 9.22664 286.654 28.1374C286.654 47.0482 277.408 56.2749 265.641 56.2749C253.874 56.2749 244.629 47.0482 244.629 28.1374Z" fill="url(#interactiveGradient)"/>
+        <path d="M207.243 17.8432H200.825C201.36 7.77783 208.542 0 220.003 0C231.77 0 238.647 6.71028 238.647 16.7757C238.647 25.0873 234.444 33.2464 219.239 43.4643L210.376 49.4121H239.869V55.3598H200.672V50.3271L214.12 40.2617C227.262 30.425 231.464 24.0198 231.464 17.3857C231.464 10.5992 227.109 6.10025 219.774 6.10025C213.203 6.10025 208.007 9.91292 207.243 17.8432Z" fill="url(#interactiveGradient)"/>
+      </svg>
     </div>
 
-    <script>
-        // 이미 배치된 명함들의 위치를 저장
-        let placedCards = [];
+    <div class="text-container">
+      <img src="landing_text_blank.svg" alt="Blank" class="text-blank">
+      <img src="landing_text_null.svg" alt="null" class="text-layer">
+      <img src="landing_text_kr.svg" alt="KR" class="text-layer">
+      <img src="landing_text_en.svg" alt="EN" class="text-layer">
+    </div>
+    
+    <div class="info-container">
+      <img src="landing_info1.svg" alt="Info 1" class="info-image left">
+      <button id="startBtn" class="start-button start-button-wrapper">START</button>
+      <img src="landing_info2.svg" alt="Info 2" class="info-image right">
+    </div>
+
+    <!-- Pixel Transition Overlay -->
+    <div class="pixel-overlay" id="pixelOverlay"></div>
+    
+    <div class="footer">
+      <div class="footer-text">2025 KMU AI DESIGN GRADUATION EXHIBITION</div>
+    </div>
+  </div>
+
+  <script>
+    // Flowing gradient animation
+    const titleWrapper = document.getElementById('titleWrapper');
+    const gradient = titleWrapper.querySelector('#interactiveGradient');
+    
+    let startTime = Date.now();
+    const duration = 4000; // 4 seconds
+    
+    function animateGradient() {
+      const elapsed = (Date.now() - startTime) % duration;
+      const progress = elapsed / duration;
+      
+      // Smooth easing function (ease-in-out)
+      const eased = progress < 0.5 
+        ? 2 * progress * progress 
+        : -1 + (4 - 2 * progress) * progress;
+      
+      // Gradient moves from left to right and back
+      const x1 = -300 + eased * 1200;
+      const x2 = x1 + 600;
+      
+      gradient.setAttribute('x1', x1);
+      gradient.setAttribute('x2', x2);
+      
+      requestAnimationFrame(animateGradient);
+    }
+    
+    animateGradient();
+
+    // Pixel Transition Effect with GSAP
+    class PixelOverlay {
+      constructor() {
+        this.overlay = document.getElementById('pixelOverlay');
+        this.rows = 8;
+        this.columns = 14;
+        this.cells = [];
         
-        function getRandomPosition(containerId) {
-            const container = document.getElementById(containerId);
-            const img = container.querySelector('img');
-            
-            // 이미지 크기 고려하여 랜덤 위치 계산
-            const maxX = window.innerWidth - img.offsetWidth;
-            const maxY = window.innerHeight - img.offsetHeight;
-            
-            let attempts = 0;
-            let randomX, randomY;
-            let isOverlapping = true;
-            
-            // 겹치지 않는 위치를 찾을 때까지 반복 (최대 100번 시도)
-            while (isOverlapping && attempts < 100) {
-                randomX = Math.random() * Math.max(0, maxX);
-                randomY = Math.random() * Math.max(0, maxY);
-                
-                isOverlapping = false;
-                
-                // 기존에 배치된 명함들과 겹치는지 확인
-                for (let placedCard of placedCards) {
-                    if (isOverlappingWith(containerId, randomX, randomY, img.offsetWidth, img.offsetHeight, placedCard)) {
-                        isOverlapping = true;
-                        break;
-                    }
-                }
-                
-                attempts++;
+        this.overlay.style.setProperty('--columns', this.columns);
+        this.createGrid();
+      }
+
+      createGrid() {
+        for (let i = 0; i < this.rows; i++) {
+          this.cells[i] = [];
+          for (let j = 0; j < this.columns; j++) {
+            const cell = document.createElement('div');
+            cell.className = 'pixel-cell';
+            gsap.set(cell, { willChange: 'opacity, transform' });
+            this.overlay.appendChild(cell);
+            this.cells[i][j] = cell;
+          }
+        }
+      }
+
+      async show() {
+        this.overlay.classList.add('active');
+        
+        const cells = this.cells.flat();
+        return new Promise((resolve) => {
+          // Lime pixels appear and stay
+          gsap.fromTo(cells, 
+            {
+              scale: 0,
+              opacity: 0,
+              transformOrigin: '50% 50%'
+            },
+            {
+              duration: 0.4,
+              ease: 'power3.out',
+              scale: 1.01,
+              opacity: 1,
+              stagger: {
+                grid: [this.rows, this.columns],
+                from: 'center',
+                each: 0.03
+              },
+              onComplete: resolve
             }
-            
-            container.style.left = randomX + 'px';
-            container.style.top = randomY + 'px';
-            
-            // 배치된 명함 정보 저장
-            placedCards.push({
-                id: containerId,
-                x: randomX,
-                y: randomY,
-                width: img.offsetWidth,
-                height: img.offsetHeight
-            });
-        }
-        
-        function isOverlappingWith(currentId, x, y, width, height, placedCard) {
-            // 같은 명함이면 겹치지 않음
-            if (currentId === placedCard.id) return false;
-            
-            // 여백을 고려한 겹침 검사 (20px 여백)
-            const margin = 20;
-            return !(x + width + margin < placedCard.x || 
-                    placedCard.x + placedCard.width + margin < x || 
-                    y + height + margin < placedCard.y || 
-                    placedCard.y + placedCard.height + margin < y);
-        }
-
-        function goToParkPage() {
-            const container = document.getElementById('svg-container1');
-            container.classList.add('escape');
-            setTimeout(() => {
-                window.location.href = '千一手千一眼.html';
-            }, 500);
-        }
-
-        function goToKimPage() {
-            const container = document.getElementById('svg-container2');
-            container.classList.add('escape');
-            setTimeout(() => {
-                window.location.href = 'facetodot.html';
-            }, 500);
-        }
-
-        function goToSoritPage() {
-            const container = document.getElementById('svg-container3');
-            container.classList.add('escape');
-            setTimeout(() => {
-                window.location.href = 'sorit.html';
-            }, 500);
-        }
-
-        function goToCussemblePage() {
-            const container = document.getElementById('svg-container4');
-            container.classList.add('escape');
-            setTimeout(() => {
-                window.location.href = 'cussemble.html';
-            }, 500);
-        }
-        
-        function goToDistortPage() {
-            const container = document.getElementById('svg-container5');
-            container.classList.add('escape');
-            setTimeout(() => {
-                window.location.href = 'distort.html';
-            }, 500);
-        }
-        
-        function goToSenselPage() {
-            const container = document.getElementById('svg-container6');
-            container.classList.add('escape');
-            setTimeout(() => {
-                window.location.href = 'sensel.html';
-            }, 500);
-        }
-        
-        function goToFmxisAnastasisPage() {
-            const container = document.getElementById('svg-container7');
-            container.classList.add('escape');
-            setTimeout(() => {
-                window.location.href = 'fmxis-anastasis.html';
-            }, 500);
-        }
-        
-        function goToCareerFitPage() {
-            const container = document.getElementById('svg-container8');
-            container.classList.add('escape');
-            setTimeout(() => {
-                window.location.href = 'career-fit.html';
-            }, 500);
-        }
-        
-        function goToSnoverPage() {
-            const container = document.getElementById('svg-container9');
-            container.classList.add('escape');
-            setTimeout(() => {
-                window.location.href = 'snover.html';
-            }, 500);
-        }
-        
-        function goToCachePage() {
-            const container = document.getElementById('svg-container10');
-            container.classList.add('escape');
-            setTimeout(() => {
-                window.location.href = 'cache.html';
-            }, 500);
-        }
-        
-        function goToKeepYourMomentPage() {
-            const container = document.getElementById('svg-container11');
-            container.classList.add('escape');
-            setTimeout(() => {
-                window.location.href = 'keepyourmoment.html';
-            }, 500);
-        }
-        
-        function goToTehePage() {
-            const container = document.getElementById('svg-container12');
-            container.classList.add('escape');
-            setTimeout(() => {
-                window.location.href = 'tehe.html';
-            }, 500);
-        }
-        
-        function goToUnknownPage() {
-            const container = document.getElementById('svg-container13');
-            container.classList.add('escape');
-            setTimeout(() => {
-                window.location.href = 'un-known.html';
-            }, 500);
-        }
-        
-        function goToInframePage() {
-            const container = document.getElementById('svg-container14');
-            container.classList.add('escape');
-            setTimeout(() => {
-                window.location.href = 'inframe.html';
-            }, 500);
-        }
-        
-        function goToJingzhongdongPage() {
-            const container = document.getElementById('svg-container15');
-            container.classList.add('escape');
-            setTimeout(() => {
-                window.location.href = '靜中動.html';
-            }, 500);
-        }
-        
-        function goToKeeplePage() {
-            const container = document.getElementById('svg-container16');
-            container.classList.add('escape');
-            setTimeout(() => {
-                window.location.href = 'keeple.html';
-            }, 500);
-        }
-
-        // 페이지 로드 시 랜덤 위치 설정 (한 번에 배치)
-        window.addEventListener('load', function() {
-            // 기존 배치 정보 초기화
-            placedCards = [];
-            
-            // 모든 명함을 한 번에 배치
-            getRandomPosition('svg-container1');
-            getRandomPosition('svg-container2');
-            getRandomPosition('svg-container3');
-            getRandomPosition('svg-container4');
-            getRandomPosition('svg-container5');
-            getRandomPosition('svg-container6');
-            getRandomPosition('svg-container7');
-            getRandomPosition('svg-container8');
-            getRandomPosition('svg-container9');
-            getRandomPosition('svg-container10');
-            getRandomPosition('svg-container11');
-            getRandomPosition('svg-container12');
-            getRandomPosition('svg-container13');
-            getRandomPosition('svg-container14');
-            getRandomPosition('svg-container15');
-            getRandomPosition('svg-container16');
-            
-            // 모든 명함을 동시에 보이게 함 (애니메이션도 동시에 시작)
-            setTimeout(() => {
-                document.getElementById('svg-container1').classList.add('visible');
-                document.getElementById('svg-container2').classList.add('visible');
-                document.getElementById('svg-container3').classList.add('visible');
-                document.getElementById('svg-container4').classList.add('visible');
-                document.getElementById('svg-container5').classList.add('visible');
-                document.getElementById('svg-container6').classList.add('visible');
-                document.getElementById('svg-container7').classList.add('visible');
-                document.getElementById('svg-container8').classList.add('visible');
-                document.getElementById('svg-container9').classList.add('visible');
-                document.getElementById('svg-container10').classList.add('visible');
-                document.getElementById('svg-container11').classList.add('visible');
-                document.getElementById('svg-container12').classList.add('visible');
-                document.getElementById('svg-container13').classList.add('visible');
-                document.getElementById('svg-container14').classList.add('visible');
-                document.getElementById('svg-container15').classList.add('visible');
-                document.getElementById('svg-container16').classList.add('visible');
-            }, 100);
+          );
         });
-        
-        // 새로고침 시에도 랜덤 위치 설정
-        window.addEventListener('beforeunload', function() {
-            placedCards = [];
-            getRandomPosition('svg-container1');
-            getRandomPosition('svg-container2');
-            getRandomPosition('svg-container3');
-            getRandomPosition('svg-container4');
-            getRandomPosition('svg-container5');
-            getRandomPosition('svg-container6');
-            getRandomPosition('svg-container7');
-            getRandomPosition('svg-container8');
-            getRandomPosition('svg-container9');
-            getRandomPosition('svg-container10');
-            getRandomPosition('svg-container11');
-            getRandomPosition('svg-container12');
-            getRandomPosition('svg-container13');
-            getRandomPosition('svg-container14');
-            getRandomPosition('svg-container15');
-            getRandomPosition('svg-container16');
-            
-            // 모든 명함을 동시에 보이게 함
-            setTimeout(() => {
-                document.getElementById('svg-container1').classList.add('visible');
-                document.getElementById('svg-container2').classList.add('visible');
-                document.getElementById('svg-container3').classList.add('visible');
-                document.getElementById('svg-container4').classList.add('visible');
-                document.getElementById('svg-container5').classList.add('visible');
-                document.getElementById('svg-container6').classList.add('visible');
-                document.getElementById('svg-container7').classList.add('visible');
-                document.getElementById('svg-container8').classList.add('visible');
-                document.getElementById('svg-container9').classList.add('visible');
-                document.getElementById('svg-container10').classList.add('visible');
-                document.getElementById('svg-container11').classList.add('visible');
-                document.getElementById('svg-container12').classList.add('visible');
-                document.getElementById('svg-container13').classList.add('visible');
-                document.getElementById('svg-container14').classList.add('visible');
-                document.getElementById('svg-container15').classList.add('visible');
-                document.getElementById('svg-container16').classList.add('visible');
-            }, 50);
+      }
+
+      async hide() {
+        const cells = this.cells.flat();
+        return new Promise((resolve) => {
+          gsap.to(cells,
+            {
+              duration: 0.4,
+              ease: 'power3.in',
+              scale: 0,
+              opacity: 0,
+              stagger: {
+                grid: [this.rows, this.columns],
+                from: 'center',
+                each: 0.03
+              },
+              onComplete: () => {
+                this.overlay.classList.remove('active');
+                resolve();
+              }
+            }
+          );
         });
-    </script>
+      }
+    }
+
+    const pixelOverlay = new PixelOverlay();
+
+    // START button click handler
+    document.getElementById('startBtn').addEventListener('click', async (e) => {
+      e.preventDefault();
+      
+      // Set flag to indicate transition from index
+      sessionStorage.setItem('fromIndex', 'true');
+      
+      await pixelOverlay.show();
+      // Navigate to next page immediately after pixels appear
+      window.location.href = 'main.html';
+    });
+  </script>
 </body>
 </html>

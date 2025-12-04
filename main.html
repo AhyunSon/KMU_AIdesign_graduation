@@ -1,0 +1,978 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AIxD 제 1회 졸업전시 'NULL'</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: black;
+            height: 100vh;
+            width: 100vw;
+            overflow: hidden;
+            position: relative;
+            cursor: pointer;
+        }
+
+        /* Pixel Transition Grid */
+        .pixel-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: grid;
+            grid-template-columns: repeat(var(--columns, 12), 1fr);
+            gap: 0;
+            z-index: 9999;
+            pointer-events: none;
+            opacity: 1;
+        }
+
+        .pixel-cell {
+            background-color: rgba(200, 255, 61, 0.95);
+            width: 100%;
+            height: 100%;
+        }
+
+        /* 햄버거 메뉴 버튼 */
+        .hamburger-menu {
+            position: fixed;
+            top: 1.5rem;
+            left: 1.5rem;
+            z-index: 2000;
+            cursor: pointer;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 6px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 8px;
+            transition: background-color 0.3s;
+        }
+
+        .hamburger-menu:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .hamburger-menu span {
+            width: 100%;
+            height: 3px;
+            background-color: white;
+            border-radius: 2px;
+            transition: transform 0.3s, opacity 0.3s;
+        }
+
+        .hamburger-menu.active span:nth-child(1) {
+            transform: translateY(9px) rotate(45deg);
+        }
+
+        .hamburger-menu.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .hamburger-menu.active span:nth-child(3) {
+            transform: translateY(-9px) rotate(-45deg);
+        }
+
+        /* 사이드 메뉴 */
+        .side-menu {
+            position: fixed;
+            top: 0;
+            left: -300px;
+            width: 300px;
+            height: 100vh;
+            background-color: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1500;
+            transition: left 0.3s ease-out;
+            border-right: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 5rem 2rem 2rem;
+        }
+
+        .side-menu.active {
+            left: 0;
+        }
+
+        .side-menu-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1400;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s;
+        }
+
+        .side-menu-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .menu-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: white;
+            margin-bottom: 2rem;
+        }
+
+        .menu-items {
+            list-style: none;
+        }
+
+        .menu-items li {
+            margin-bottom: 1.5rem;
+        }
+
+        .menu-items a {
+            color: white;
+            text-decoration: none;
+            font-size: 1.2rem;
+            transition: opacity 0.3s, transform 0.3s;
+            display: block;
+        }
+
+        .menu-items a:hover {
+            opacity: 0.7;
+            transform: translateX(10px);
+        }
+
+        .menu-footer {
+            position: absolute;
+            bottom: 2rem;
+            left: 2rem;
+            right: 2rem;
+            color: rgba(255, 255, 255, 0.4);
+            font-size: 0.85rem;
+            line-height: 1.6;
+        }
+
+        /* 네비게이션 바 제거 */
+        nav {
+            display: none;
+        }
+
+        .svg-container {
+            position: absolute;
+            transition: all 0.3s ease;
+            opacity: 0; /* 처음에는 숨김 */
+            animation: none; /* 처음에는 애니메이션 없음 */
+            z-index: 1; /* 네비게이션 바보다 아래에 배치 */
+        }
+
+        .svg-container.visible {
+            opacity: 1; /* 보이게 됨 */
+            animation: float 3s ease-in-out infinite; /* 보이게 되면 애니메이션 시작 */
+        }
+
+        .svg-container:hover {
+            transform: translateY(-5px);
+            filter: brightness(1.2) drop-shadow(0 5px 15px rgba(0,0,0,0.3));
+        }
+        
+        .svg-container:active {
+            animation-play-state: paused; /* 클릭 시 애니메이션 일시정지 */
+        }
+
+
+        /* 클릭 시 도망가는 애니메이션 */
+        .svg-container.escape {
+            animation: escape 0.5s ease-out forwards !important;
+            animation-delay: 0s !important;
+        }
+
+        @keyframes escape {
+            0% {
+                transform: translateY(0px) rotate(0deg);
+                opacity: 1;
+            }
+            50% {
+                transform: translateY(-50px) rotate(180deg) scale(0.8);
+                opacity: 0.7;
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg) scale(0.3);
+                opacity: 0;
+            }
+        }
+
+        /* 둥둥 떠다니는 애니메이션 */
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px) rotate(0deg);
+            }
+            25% {
+                transform: translateY(-10px) rotate(1deg);
+            }
+            50% {
+                transform: translateY(-5px) rotate(0deg);
+            }
+            75% {
+                transform: translateY(-15px) rotate(-1deg);
+            }
+        }
+
+        /* 각 명함마다 다른 애니메이션 타이밍 (짧은 지연) */
+        #svg-container1 {
+            animation-delay: 0s;
+            animation-duration: 3s;
+        }
+
+        #svg-container2 {
+            animation-delay: 0.1s;
+            animation-duration: 3s;
+        }
+
+        #svg-container3 {
+            animation-delay: 0.2s;
+            animation-duration: 3s;
+        }
+        #svg-container4 {
+            animation-delay: 0.3s;
+            animation-duration: 3s;
+        }
+        
+        #svg-container5 {
+            animation-delay: 0.4s;
+            animation-duration: 3s;
+        }
+        
+        #svg-container6 {
+            animation-delay: 0.5s;
+            animation-duration: 3s;
+        }
+        
+        #svg-container7 {
+            animation-delay: 0.6s;
+            animation-duration: 3s;
+        }
+        
+        #svg-container8 {
+            animation-delay: 0.7s;
+            animation-duration: 3s;
+        }
+        
+        #svg-container9 {
+            animation-delay: 0.8s;
+            animation-duration: 3s;
+        }
+        
+        #svg-container10 {
+            animation-delay: 0.9s;
+            animation-duration: 3s;
+        }
+        
+        
+        #svg-container11 {
+            animation-delay: 1.0s;
+            animation-duration: 3s;
+        }
+        
+        #svg-container12 {
+            animation-delay: 1.1s;
+            animation-duration: 3s;
+        }
+        
+        #svg-container13 {
+            animation-delay: 1.2s;
+            animation-duration: 3s;
+        }
+        
+        #svg-container14 {
+            animation-delay: 1.3s;
+            animation-duration: 3s;
+        }
+        
+        #svg-container15 {
+            animation-delay: 1.4s;
+            animation-duration: 3s;
+        }
+        
+        #svg-container16 {
+            animation-delay: 1.5s;
+            animation-duration: 3s;
+        }
+
+        /* null 카드 애니메이션 타이밍 */
+        #svg-container17 {
+            animation-delay: 1.6s;
+            animation-duration: 3s;
+        }
+
+        .svg-container img {
+            max-width: 200px;
+            max-height: 200px;
+            width: auto;
+            height: auto;
+            /* 성능 최적화 */
+            will-change: transform;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            -webkit-transform: translateZ(0);
+            transform: translateZ(0);
+            /* 이미지 렌더링 최적화 */
+            image-rendering: auto;
+            image-rendering: optimizeQuality;
+            /* 부드러운 렌더링 */
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* 모바일 최적화 */
+        @media screen and (max-width: 768px) {
+            .hamburger-menu {
+                top: 1rem;
+                left: 1rem;
+                width: 35px;
+                height: 35px;
+            }
+
+            .side-menu {
+                width: 250px;
+                left: -250px;
+            }
+
+            .menu-title {
+                font-size: 1.2rem;
+            }
+
+            .menu-items a {
+                font-size: 1rem;
+            }
+
+            .svg-container {
+                animation-duration: 4s; /* 모바일에서 애니메이션 느리게 */
+            }
+            
+            .svg-container img {
+                width: 80px;
+                height: auto;
+                image-rendering: optimizeSpeed;
+                image-rendering: -webkit-optimize-contrast;
+                image-rendering: crisp-edges;
+                /* 모바일 성능 최적화 */
+                -webkit-transform: translateZ(0);
+                transform: translateZ(0);
+                will-change: auto; /* 애니메이션 최적화 */
+            }
+            
+            /* 모바일에서 박승준 명함 크기 키우기 */
+            #svg-container1 img {
+                width: 120px;
+                height: auto;
+                image-rendering: auto;
+                image-rendering: optimizeQuality;
+                -webkit-font-smoothing: antialiased;
+                -moz-osx-font-smoothing: grayscale;
+            }
+            
+            /* 모바일에서 keep 명함 크기 줄이기 */
+            #svg-container11 img {
+                width: 60px;
+                height: auto;
+            }
+            
+            /* 모바일에서 im 명함 크기 줄이기 */
+            #svg-container7 img {
+                width: 60px;
+                height: auto;
+            }
+        }
+
+        @media screen and (min-width: 769px) {
+            /* 박승준 명함만 크기 키우기 */
+            #svg-container1 img {
+                max-width: 280px;
+                max-height: 280px;
+            }
+
+            /* 김동규 명함 크기 줄이기 */
+            #svg-container2 img {
+                max-width: 150px;
+                max-height: 150px;
+            }
+
+            /* 소릿 명함 크기 설정 */
+            #svg-container3 img {
+                max-width: 200px;
+                max-height: 200px;
+            }
+
+            /* 쿠 명함 크기 설정 */
+            #svg-container4 img {
+                max-width: 180px;
+                max-height: 180px;
+            }
+
+            /* keep 명함 크기 설정 (다른 것보다 작게) */
+            #svg-container11 img {
+                max-width: 120px;
+                max-height: 120px;
+            }
+
+            /* im 명함 크기 줄이기 */
+            #svg-container7 img {
+                max-width: 140px;
+                max-height: 140px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Pixel Transition Overlay -->
+    <div class="pixel-overlay" id="pixelOverlay"></div>
+
+    <!-- 햄버거 메뉴 버튼 -->
+    <div class="hamburger-menu" onclick="toggleMenu()">
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+
+    <!-- 사이드 메뉴 오버레이 -->
+    <div class="side-menu-overlay" onclick="toggleMenu()"></div>
+
+    <!-- 사이드 메뉴 -->
+    <div class="side-menu">
+        <div class="menu-title">
+            <img src="null_logo.png" alt="NULL" style="max-width: 100px; height: auto;">
+        </div>
+        <ul class="menu-items">
+            <li><a href="exhibition.html">전시소개</a></li>
+            <li><a href="field-sketch.html">현장 스케치</a></li>
+        </ul>
+        <div class="menu-footer">
+            2025<br>
+            국민대학교 AI디자인학과<br>
+            제1회 졸업전시회
+        </div>
+    </div>
+
+    <div id="svg-container1" class="svg-container">
+        <img src="박승준명함.svg" alt="박승준명함" onclick="goToParkPage()">
+    </div>
+    
+    <div id="svg-container2" class="svg-container">
+        <img src="kim_card.svg" alt="김동규명함" onclick="goToKimPage()">
+    </div>
+    
+    <div id="svg-container3" class="svg-container">
+        <img src="sorit.svg" alt="소릿명함" onclick="goToSoritPage()">
+    </div>
+    
+    <div id="svg-container4" class="svg-container">
+        <img src="cu.svg" alt="쿠명함" onclick="goToCussemblePage()">
+    </div>
+    
+    <div id="svg-container5" class="svg-container">
+        <img src="HH.svg" alt="HH명함" onclick="goToDistortPage()">
+    </div>
+    
+    <div id="svg-container6" class="svg-container">
+        <img src="SEN.svg" alt="SEN명함" onclick="goToSenselPage()">
+    </div>
+    
+    <div id="svg-container7" class="svg-container">
+        <img src="im.svg" alt="im명함" onclick="goToFmxisAnastasisPage()">
+    </div>
+    
+    <div id="svg-container8" class="svg-container">
+        <img src="car.svg" alt="car명함" onclick="goToCareerFitPage()">
+    </div>
+    
+    <div id="svg-container9" class="svg-container">
+        <img src="sno.svg" alt="sno명함" onclick="goToSnoverPage()">
+    </div>
+    
+    <div id="svg-container10" class="svg-container">
+        <img src="ga.svg" alt="ga명함" onclick="goToCachePage()">
+    </div>
+    
+    <div id="svg-container11" class="svg-container">
+        <img src="keep.svg" alt="keep명함" onclick="goToKeepYourMomentPage()">
+    </div>
+    
+    <div id="svg-container12" class="svg-container">
+        <img src="you.svg" alt="you명함" onclick="goToTehePage()">
+    </div>
+    
+    <div id="svg-container13" class="svg-container">
+        <img src="unun.svg" alt="unun명함" onclick="goToUnknownPage()">
+    </div>
+    
+    <div id="svg-container14" class="svg-container">
+        <img src="jj.svg" alt="jj명함" onclick="goToInframePage()">
+    </div>
+    
+    <div id="svg-container15" class="svg-container">
+        <img src="II.svg" alt="II명함" onclick="goToJingzhongdongPage()">
+    </div>
+    
+    <div id="svg-container16" class="svg-container">
+        <img src="kee.svg" alt="kee명함" onclick="goToKeeplePage()">
+    </div>
+
+    <div id="svg-container17" class="svg-container">
+        <img src="null_card2.svg" alt="NULL 카드" onclick="goToNullCardPage()">
+    </div>
+
+    <script>
+        // 이미 배치된 명함들의 위치를 저장
+        let placedCards = [];
+        
+        // 햄버거 메뉴 토글
+        function toggleMenu() {
+            const hamburger = document.querySelector('.hamburger-menu');
+            const sideMenu = document.querySelector('.side-menu');
+            const overlay = document.querySelector('.side-menu-overlay');
+            
+            hamburger.classList.toggle('active');
+            sideMenu.classList.toggle('active');
+            overlay.classList.toggle('active');
+        }
+        
+        function getRandomPosition(containerId) {
+            const container = document.getElementById(containerId);
+            const img = container.querySelector('img');
+            
+            // 이미지 크기가 제대로 로드되었는지 확인
+            if (!img.offsetWidth || !img.offsetHeight) {
+                console.warn(`Image size not loaded for ${containerId}`);
+                return;
+            }
+            
+            // 햄버거 메뉴 높이는 무시 (네비게이션 바가 없으므로)
+            const topMargin = 20; // 상단 여백
+
+            // 햄버거 메뉴 버튼 영역 계산 (겹침 금지 영역)
+            const menuBtn = document.querySelector('.hamburger-menu');
+            const menuRect = menuBtn ? menuBtn.getBoundingClientRect() : { left: 0, top: 0, right: 0, bottom: 0, width: 0, height: 0 };
+            
+            // 이미지 크기 고려하여 랜덤 위치 계산
+            const maxX = window.innerWidth - img.offsetWidth;
+            // Y축은 상단 여백만 제외
+            const availableHeight = window.innerHeight - topMargin;
+            const maxY = availableHeight - img.offsetHeight;
+            
+            let attempts = 0;
+            let randomX, randomY;
+            let isOverlapping = true;
+            let currentMargin = 30; // 초기 여백 30px
+            
+            // 겹치지 않는 위치를 찾을 때까지 반복
+            while (isOverlapping && attempts < 1000) {
+                randomX = Math.random() * Math.max(0, maxX);
+                // 상단 여백 아래에 배치
+                randomY = topMargin + Math.random() * Math.max(0, maxY);
+                
+                isOverlapping = false;
+                
+                // 기존에 배치된 명함들과 겹치는지 확인
+                for (let placedCard of placedCards) {
+                    if (isOverlappingWith(containerId, randomX, randomY, img.offsetWidth, img.offsetHeight, placedCard, currentMargin)) {
+                        isOverlapping = true;
+                        break;
+                    }
+                }
+
+                // 햄버거 메뉴 버튼 영역과 겹치는지 확인 (버튼 주변 여백 10px 추가)
+                if (!isOverlapping) {
+                    const marginAroundMenu = 10;
+                    const cardRect = {
+                        left: randomX,
+                        top: randomY,
+                        right: randomX + img.offsetWidth,
+                        bottom: randomY + img.offsetHeight
+                    };
+                    const expandedMenuRect = {
+                        left: menuRect.left - marginAroundMenu,
+                        top: menuRect.top - marginAroundMenu,
+                        right: menuRect.right + marginAroundMenu,
+                        bottom: menuRect.bottom + marginAroundMenu
+                    };
+                    const overlapsMenu = !(cardRect.right < expandedMenuRect.left ||
+                                            cardRect.left > expandedMenuRect.right ||
+                                            cardRect.bottom < expandedMenuRect.top ||
+                                            cardRect.top > expandedMenuRect.bottom);
+                    if (overlapsMenu) {
+                        isOverlapping = true;
+                    }
+                }
+                
+                attempts++;
+                
+                // 300번 시도 후에도 못 찾으면 여백 줄이기
+                if (attempts === 300) {
+                    currentMargin = 15;
+                } else if (attempts === 600) {
+                    currentMargin = 5;
+                } else if (attempts === 900) {
+                    currentMargin = 0; // 마지막 100번은 여백 없이
+                }
+            }
+            
+            if (attempts >= 1000) {
+                console.warn(`Could not find non-overlapping position for ${containerId} after 1000 attempts`);
+            }
+            
+            container.style.left = randomX + 'px';
+            container.style.top = randomY + 'px';
+            
+            // 배치된 명함 정보 저장
+            placedCards.push({
+                id: containerId,
+                x: randomX,
+                y: randomY,
+                width: img.offsetWidth,
+                height: img.offsetHeight
+            });
+        }
+        
+        function isOverlappingWith(currentId, x, y, width, height, placedCard, margin = 30) {
+            // 같은 명함이면 겹치지 않음
+            if (currentId === placedCard.id) return false;
+            
+            // 여백을 고려한 겹침 검사
+            return !(x + width + margin < placedCard.x || 
+                    placedCard.x + placedCard.width + margin < x || 
+                    y + height + margin < placedCard.y || 
+                    placedCard.y + placedCard.height + margin < y);
+        }
+
+        function goToParkPage() {
+            const container = document.getElementById('svg-container1');
+            container.classList.add('escape');
+            setTimeout(() => {
+                window.location.href = '千一手千一眼.html';
+            }, 500);
+        }
+
+        function goToKimPage() {
+            const container = document.getElementById('svg-container2');
+            container.classList.add('escape');
+            setTimeout(() => {
+                window.location.href = 'facetodot.html';
+            }, 500);
+        }
+
+        function goToSoritPage() {
+            const container = document.getElementById('svg-container3');
+            container.classList.add('escape');
+            setTimeout(() => {
+                window.location.href = 'sorit.html';
+            }, 500);
+        }
+
+        function goToCussemblePage() {
+            const container = document.getElementById('svg-container4');
+            container.classList.add('escape');
+            setTimeout(() => {
+                window.location.href = 'cussemble.html';
+            }, 500);
+        }
+        
+        function goToDistortPage() {
+            const container = document.getElementById('svg-container5');
+            container.classList.add('escape');
+            setTimeout(() => {
+                window.location.href = 'distort.html';
+            }, 500);
+        }
+        
+        function goToSenselPage() {
+            const container = document.getElementById('svg-container6');
+            container.classList.add('escape');
+            setTimeout(() => {
+                window.location.href = 'sensel.html';
+            }, 500);
+        }
+        
+        function goToFmxisAnastasisPage() {
+            const container = document.getElementById('svg-container7');
+            container.classList.add('escape');
+            setTimeout(() => {
+                window.location.href = 'fmxis-anastasis.html';
+            }, 500);
+        }
+        
+        function goToCareerFitPage() {
+            const container = document.getElementById('svg-container8');
+            container.classList.add('escape');
+            setTimeout(() => {
+                window.location.href = 'career-fit.html';
+            }, 500);
+        }
+        
+        function goToSnoverPage() {
+            const container = document.getElementById('svg-container9');
+            container.classList.add('escape');
+            setTimeout(() => {
+                window.location.href = 'snover.html';
+            }, 500);
+        }
+        
+        function goToCachePage() {
+            const container = document.getElementById('svg-container10');
+            container.classList.add('escape');
+            setTimeout(() => {
+                window.location.href = 'cache.html';
+            }, 500);
+        }
+        
+        function goToKeepYourMomentPage() {
+            const container = document.getElementById('svg-container11');
+            container.classList.add('escape');
+            setTimeout(() => {
+                window.location.href = 'keepyourmoment.html';
+            }, 500);
+        }
+        
+        function goToTehePage() {
+            const container = document.getElementById('svg-container12');
+            container.classList.add('escape');
+            setTimeout(() => {
+                window.location.href = 'tehe.html';
+            }, 500);
+        }
+        
+        function goToUnknownPage() {
+            const container = document.getElementById('svg-container13');
+            container.classList.add('escape');
+            setTimeout(() => {
+                window.location.href = 'un-known.html';
+            }, 500);
+        }
+        
+        function goToInframePage() {
+            const container = document.getElementById('svg-container14');
+            container.classList.add('escape');
+            setTimeout(() => {
+                window.location.href = 'inframe.html';
+            }, 500);
+        }
+        
+        function goToJingzhongdongPage() {
+            const container = document.getElementById('svg-container15');
+            container.classList.add('escape');
+            setTimeout(() => {
+                window.location.href = '靜中動.html';
+            }, 500);
+        }
+        
+        function goToKeeplePage() {
+            const container = document.getElementById('svg-container16');
+            container.classList.add('escape');
+            setTimeout(() => {
+                window.location.href = 'keeple.html';
+            }, 500);
+        }
+
+        function goToNullCardPage() {
+            const container = document.getElementById('svg-container17');
+            container.classList.add('escape');
+            setTimeout(() => {
+                window.location.href = 'exhibition.html';
+            }, 500);
+        }
+
+        // 페이지 로드 시 랜덤 위치 설정 (한 번에 배치)
+        window.addEventListener('load', function() {
+            // 모든 이미지가 로드될 때까지 대기
+            const images = document.querySelectorAll('.svg-container img');
+            let loadedCount = 0;
+            const totalImages = images.length;
+            
+            function checkAllLoaded() {
+                loadedCount++;
+                console.log(`Images loaded: ${loadedCount}/${totalImages}`);
+                if (loadedCount === totalImages) {
+                    // 추가 대기 시간으로 렌더링 완료 보장
+                    setTimeout(() => {
+                        positionAllCards();
+                    }, 100);
+                }
+            }
+            
+            images.forEach(img => {
+                if (img.complete && img.naturalWidth > 0) {
+                    checkAllLoaded();
+                } else {
+                    img.addEventListener('load', checkAllLoaded);
+                    img.addEventListener('error', function() {
+                        console.error(`Failed to load image: ${img.src}`);
+                        checkAllLoaded();
+                    });
+                }
+            });
+        });
+        
+        function positionAllCards() {
+            // 기존 배치 정보 초기화
+            placedCards = [];
+            
+            // 모든 명함을 한 번에 배치
+            getRandomPosition('svg-container1');
+            getRandomPosition('svg-container2');
+            getRandomPosition('svg-container3');
+            getRandomPosition('svg-container4');
+            getRandomPosition('svg-container5');
+            getRandomPosition('svg-container6');
+            getRandomPosition('svg-container7');
+            getRandomPosition('svg-container8');
+            getRandomPosition('svg-container9');
+            getRandomPosition('svg-container10');
+            getRandomPosition('svg-container11');
+            getRandomPosition('svg-container12');
+            getRandomPosition('svg-container13');
+            getRandomPosition('svg-container14');
+            getRandomPosition('svg-container15');
+            getRandomPosition('svg-container16');
+            getRandomPosition('svg-container17');
+            
+            // 모든 명함을 동시에 보이게 함 (애니메이션도 동시에 시작)
+            setTimeout(() => {
+                document.getElementById('svg-container1').classList.add('visible');
+                document.getElementById('svg-container2').classList.add('visible');
+                document.getElementById('svg-container3').classList.add('visible');
+                document.getElementById('svg-container4').classList.add('visible');
+                document.getElementById('svg-container5').classList.add('visible');
+                document.getElementById('svg-container6').classList.add('visible');
+                document.getElementById('svg-container7').classList.add('visible');
+                document.getElementById('svg-container8').classList.add('visible');
+                document.getElementById('svg-container9').classList.add('visible');
+                document.getElementById('svg-container10').classList.add('visible');
+                document.getElementById('svg-container11').classList.add('visible');
+                document.getElementById('svg-container12').classList.add('visible');
+                document.getElementById('svg-container13').classList.add('visible');
+                document.getElementById('svg-container14').classList.add('visible');
+                document.getElementById('svg-container15').classList.add('visible');
+                document.getElementById('svg-container16').classList.add('visible');
+                document.getElementById('svg-container17').classList.add('visible');
+            }, 100);
+        }
+        
+        // 새로고침 시에도 랜덤 위치 설정
+        window.addEventListener('beforeunload', function() {
+            placedCards = [];
+            getRandomPosition('svg-container1');
+            getRandomPosition('svg-container2');
+            getRandomPosition('svg-container3');
+            getRandomPosition('svg-container4');
+            getRandomPosition('svg-container5');
+            getRandomPosition('svg-container6');
+            getRandomPosition('svg-container7');
+            getRandomPosition('svg-container8');
+            getRandomPosition('svg-container9');
+            getRandomPosition('svg-container10');
+            getRandomPosition('svg-container11');
+            getRandomPosition('svg-container12');
+            getRandomPosition('svg-container13');
+            getRandomPosition('svg-container14');
+            getRandomPosition('svg-container15');
+            getRandomPosition('svg-container16');
+            getRandomPosition('svg-container17');
+            
+            // 모든 명함을 동시에 보이게 함
+            setTimeout(() => {
+                document.getElementById('svg-container1').classList.add('visible');
+                document.getElementById('svg-container2').classList.add('visible');
+                document.getElementById('svg-container3').classList.add('visible');
+                document.getElementById('svg-container4').classList.add('visible');
+                document.getElementById('svg-container5').classList.add('visible');
+                document.getElementById('svg-container6').classList.add('visible');
+                document.getElementById('svg-container7').classList.add('visible');
+                document.getElementById('svg-container8').classList.add('visible');
+                document.getElementById('svg-container9').classList.add('visible');
+                document.getElementById('svg-container10').classList.add('visible');
+                document.getElementById('svg-container11').classList.add('visible');
+                document.getElementById('svg-container12').classList.add('visible');
+                document.getElementById('svg-container13').classList.add('visible');
+                document.getElementById('svg-container14').classList.add('visible');
+                document.getElementById('svg-container15').classList.add('visible');
+                document.getElementById('svg-container16').classList.add('visible');
+                document.getElementById('svg-container17').classList.add('visible');
+            }, 50);
+        });
+
+        // Pixel transition on page load
+        class PixelOverlay {
+            constructor() {
+                this.overlay = document.getElementById('pixelOverlay');
+                this.rows = 8;
+                this.columns = 14;
+                this.cells = [];
+                
+                this.overlay.style.setProperty('--columns', this.columns);
+                this.createGrid();
+            }
+
+            createGrid() {
+                for (let i = 0; i < this.rows; i++) {
+                    this.cells[i] = [];
+                    for (let j = 0; j < this.columns; j++) {
+                        const cell = document.createElement('div');
+                        cell.className = 'pixel-cell';
+                        gsap.set(cell, { willChange: 'opacity, transform', scale: 1.01, opacity: 1 });
+                        this.overlay.appendChild(cell);
+                        this.cells[i][j] = cell;
+                    }
+                }
+            }
+
+            async hide() {
+                const cells = this.cells.flat();
+                return new Promise((resolve) => {
+                    gsap.to(cells, {
+                        duration: 0.4,
+                        ease: 'power3.in',
+                        scale: 0,
+                        opacity: 0,
+                        stagger: {
+                            grid: [this.rows, this.columns],
+                            from: 'center',
+                            each: 0.03
+                        },
+                        onComplete: () => {
+                            this.overlay.style.display = 'none';
+                            resolve();
+                        }
+                    });
+                });
+            }
+        }
+
+        const pixelOverlay = new PixelOverlay();
+        
+        // Hide pixels only when coming from index page
+        window.addEventListener('load', () => {
+            // Check if coming from index page
+            const fromIndex = sessionStorage.getItem('fromIndex');
+            
+            if (fromIndex === 'true') {
+                // Clear the flag
+                sessionStorage.removeItem('fromIndex');
+                // Hide pixels with animation
+                setTimeout(() => {
+                    pixelOverlay.hide();
+                }, 100);
+            } else {
+                // From any other source (refresh, direct access, navigation menu), hide immediately
+                pixelOverlay.overlay.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>
