@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>?�장 ?��?�?- AIxD ??1??졸업?�시 'NULL'</title>
+    <title>?�장 ?��?�?- AIxD ??1??졸업?�시 'NULL'</title>
     <style>
         * {
             margin: 0;
@@ -25,7 +25,7 @@
             line-height: 1.6;
         }
 
-        /* 로딩 ?�피??*/
+        /* 로딩 스피너 */
         .page-loader {
             position: fixed;
             top: 0;
@@ -45,6 +45,12 @@
             visibility: hidden;
         }
 
+        /* 로딩 중 모든 콘텐츠 숨기기 */
+        body:not(.loaded) .main-content,
+        body:not(.loaded) nav {
+            visibility: hidden;
+        }
+
         .spinner {
             width: 50px;
             height: 50px;
@@ -56,9 +62,9 @@
 
         @keyframes spin {
             to { transform: rotate(360deg); }
-        }
+        }`n`n        /* 로딩 중 모든 콘텐츠 숨기기 */`n        body:not(.loaded) .main-content,`n        body:not(.loaded) nav {`n            visibility: hidden;`n        }
 
-        /* ?�비게이??�?*/
+        /* ?�비게이??�?*/
         nav {
             position: fixed;
             top: 0;
@@ -167,7 +173,7 @@
             display: block;
         }
 
-        /* 메인 컨텐�?*/
+        /* 메인 컨텐�?*/
         .main-content {
             margin-top: 80px;
             padding: 3rem 2rem;
@@ -210,7 +216,7 @@
             text-align: left;
         }
 
-        /* ?�진 갤러�?*/
+        /* ?�진 갤러�?*/
         .gallery-container {
             margin: 0 120px;
         }
@@ -346,7 +352,7 @@
             border: 1px dashed rgba(255, 255, 255, 0.2);
         }
 
-        /* 비디???�션 */
+        /* 비디???�션 */
         .video-container {
             position: relative;
             width: 100%;
@@ -382,7 +388,7 @@
             border: 1px dashed rgba(255, 255, 255, 0.2);
         }
 
-        /* ?�이?�박??모달 */
+        /* ?�이?�박??모달 */
         .lightbox {
             display: none;
             position: fixed;
@@ -504,35 +510,35 @@
     </style>
 </head>
 <body>
-    <!-- 로딩 ?�피??-->
+    <!-- 로딩 ?�피??-->
     <div class="page-loader" id="pageLoader">
         <div class="spinner"></div>
     </div>
 
-    <!-- ?�비게이??�?-->
+    <!-- ?�비게이??�?-->
     <nav>
         <div class="nav-container">
             <a href="index.html" class="nav-logo">
                 <img src="null_logo.png" alt="NULL" style="height: 30px; width: auto;">
             </a>
             <ul class="nav-menu">
-                <li><a href="main.html">?�품 관??/a></li>
+                <li><a href="main.html">?�품 관??/a></li>
                 <li class="dropdown">
-                    <a href="exhibition.html">?�시?�개</a>
+                    <a href="exhibition.html">?�시?�개</a>
                     <div class="dropdown-content">
                         <a href="exhibition.html#about-null">About NULL</a>
                         <a href="exhibition.html#opening-film">Opening Film</a>
                         <a href="exhibition.html#interview-film">Interview Film</a>
-                        <a href="exhibition.html#participants">참여?�생</a>
-                        <a href="exhibition.html#credit">?�레??/a>
+                        <a href="exhibition.html#participants">참여?�생</a>
+                        <a href="exhibition.html#credit">?�레??/a>
                     </div>
                 </li>
-                <li><a href="field-sketch.html" class="active">?�장 ?��?�?/a></li>
+                <li><a href="field-sketch.html" class="active">?�장 ?��?�?/a></li>
             </ul>
         </div>
     </nav>
 
-    <!-- 메인 컨텐�?-->
+    <!-- 메인 컨텐�?-->
     <div class="main-content">
         <!-- Making Film -->
         <section class="section">
@@ -540,12 +546,12 @@
             <div class="video-container">
                 <video controls preload="metadata" poster="">
                     <source src="https://www.dropbox.com/scl/fi/ylve34ibf65im5t04g9hz/.mp4?rlkey=62p7d9uwbttv56i5smcexrojn&st=60678hpd&dl=1" type="video/mp4">
-                    브라?��?가 비디?��? 지?�하지 ?�습?�다.
+                    브라?��?가 비디?��? 지?�하지 ?�습?�다.
                 </video>
             </div>
         </section>
 
-        <!-- ?�장 ?�진 -->
+        <!-- ?�장 ?�진 -->
         <section class="section">
             <h2 class="section-title">Gallery</h2>
             <div class="gallery-container">
@@ -554,121 +560,127 @@
                     <img id="previewImage" class="preview-image" src="" alt="Preview">
                     <div class="preview-nav preview-prev" onclick="previousImage(event)">??/div>
                     <div class="preview-nav preview-next" onclick="nextImage(event)">??/div>
-                    <button class="preview-fullscreen" onclick="openFullscreen()" title="?�게보기">??/button>
+                    <button class="preview-fullscreen" onclick="openFullscreen()" title="?�게보기">??/button>
                 </div>
 
-                <!-- ?�네??그리??-->
+                <!-- ?�네??그리??-->
                 <div class="photo-gallery" id="photoGallery">
-                    <!-- ?�진 ?�네?�이 ?�기???�적?�로 ?�시?�니??-->
+                    <!-- ?�진 ?�네?�이 ?�기???�적?�로 ?�시?�니??-->
                 </div>
             </div>
         </section>
     </div>
 
-    <!-- ?�이?�박??모달 -->
+    <!-- ?�이?�박??모달 -->
     <div class="lightbox" id="lightbox" onclick="closeLightbox()">
         <div class="lightbox-close">×</div>
         <div class="lightbox-nav lightbox-prev" onclick="navigateLightbox(event, -1)">??/div>
         <div class="lightbox-nav lightbox-next" onclick="navigateLightbox(event, 1)">??/div>
-        <img id="lightboxImg" src="" alt="?��? ?��?지">
+        <img id="lightboxImg" src="" alt="?��? ?��?지">
     </div>
 
     <script>
-        // ?�이지 DOM 로드 ?�료???�피???�거 (??빠른 ?�시)
+        // 페이지 DOM 로드 완료시 스피너 제거 (더 빠른 표시)
         document.addEventListener('DOMContentLoaded', function() {
             const loader = document.getElementById('pageLoader');
-            loader.classList.add('hidden');
+            document.body.classList.add('loaded');
+            setTimeout(() => {
+                document.body.classList.add('loaded');
+            setTimeout(() => {
+                loader.classList.add('hidden');
+            }, 100);
+            }, 100);
         });
 
         let currentImageIndex = 0;
         let imageList = [];
 
-        // ?�장 ?�진 ?�더?�서 ?��?지 로드
+        // ?�장 ?�진 ?�더?�서 ?��?지 로드
         async function loadGalleryImages() {
             const gallery = document.getElementById('photoGallery');
             const previewImage = document.getElementById('previewImage');
             
-            // ?�장 ?�진 ?�더??모든 ?�진
+            // ?�장 ?�진 ?�더??모든 ?�진
             const images = [
-                '?�장 ?�진/0. ?�스??1.png',
-                '?�장 ?�진/0. ?�스??2.png',
-                '?�장 ?�진/1. ?�포?�스??JPG???�본.jpg',
-                '?�장 ?�진/1. ?�시???�구1.jpg',
-                '?�장 ?�진/1. ?�시???�구2.jpg',
-                '?�장 ?�진/1. ?�시???�구3.jpg',
-                '?�장 ?�진/김?�규 _ Face to Dot_1.jpg',
-                '?�장 ?�진/김?�규 _ Face to Dot_2.jpg',
-                '?�장 ?�진/김?�규 _ Face to Dot_3.jpg',
-                '?�장 ?�진/김?�규 _ Face to Dot_5.JPG',
-                '?�장 ?�진/김?�규, ?�아?? ?�서??_ ?�릿_1.png',
-                '?�장 ?�진/김?�규, ?�아?? ?�서??_ ?�릿_2.png',
-                '?�장 ?�진/김?�규, ?�아?? ?�서??_ ?�릿_3.png',
-                '?�장 ?�진/김민승 _ Snover_1.jpg',
-                '?�장 ?�진/김민승 _ Snover_2.JPG',
-                '?�장 ?�진/김민승 _ Snover_3.JPG',
-                '?�장 ?�진/김?�효, ?�효?� _ DISTORT_1.jpeg',
-                '?�장 ?�진/김?�효, ?�효?� _ DISTORT_2.jpeg',
-                '?�장 ?�진/김?�효, ?�효?� _ DISTORT_3.JPG',
-                '?�장 ?�진/김?�효, ?�효?� _ DISTORT_4.png',
-                '?�장 ?�진/김?�효, ?�효?� _ DISTORT_5.png',
-                '?�장 ?�진/김?�효, ?�효?� _ DISTORT_6.png',
-                '?�장 ?�진/김?�진 _ TEHE_1.jpg',
-                '?�장 ?�진/김?�진 _ TEHE_2.jpg',
-                '?�장 ?�진/김?�진 _ TEHE_3.jpg',
-                '?�장 ?�진/박승준 _ 천일?�천?�안1.png',
-                '?�장 ?�진/박승준 _ 천일?�천?�안2.png',
-                '?�장 ?�진/박승준 _ 천일?�천?�안3.jpg',
-                '?�장 ?�진/박승준 _ 천일?�천?�안5.png',
-                '?�장 ?�진/박승준 _ 천일?�천?�안6.png',
-                '?�장 ?�진/박승준 _ 천일?�천?�안7.png',
-                '?�장 ?�진/박승준 _ 천일?�천?�안8.jpg',
-                '?�장 ?�진/박하�?Sensel(1).jpg',
-                '?�장 ?�진/박하�?Sensel(2).jpg',
-                '?�장 ?�진/박하�?Sensel(4).JPG',
-                '?�장 ?�진/박하�?Sensel(5).JPG',
-                '?�장 ?�진/박하�?Sensel(6).JPG',
-                '?�장 ?�진/박하�?Sensel(7).JPG',
-                '?�장 ?�진/박하�??�중??1.JPG',
-                '?�장 ?�진/박하�??�중??2.jpg',
-                '?�장 ?�진/박하�??�중??3.JPG',
-                '?�장 ?�진/박하�??�중??4.JPG',
-                '?�장 ?�진/배정??_ Career Fit 1(1).png',
-                '?�장 ?�진/배정??_ Career Fit 1.png',
-                '?�장 ?�진/?�아??_ Keeple_1.jpg',
-                '?�장 ?�진/?�아??_ Keeple_2.jpg',
-                '?�장 ?�진/?�아??_ Keeple_3.JPG',
-                '?�장 ?�진/?�세??_ Cache_1.jpeg',
-                '?�장 ?�진/?�세??_ Cache_2.JPG',
-                '?�장 ?�진/?�세??_ Cache_3.JPG',
-                '?�장 ?�진/?�영??_ un_known 1.jpg',
-                '?�장 ?�진/?�영??_ un_known 2.jpg',
-                '?�장 ?�진/?�영??_ un_known 3.jpg',
-                '?�장 ?�진/?�영??_ un_known 4.jpg',
-                '?�장 ?�진/?�영??_ un_known 5.jpg',
-                '?�장 ?�진/?�서??_ Inframe_.jpg',
-                '?�장 ?�진/?��???쿠셈�?.JPG',
-                '?�장 ?�진/?��???쿠셈�?.jpeg',
-                '?�장 ?�진/?��???_ Keep Your moment.JPG',
-                '?�장 ?�진/?�유�?ANASTASIS (11).jpg',
-                '?�장 ?�진/?�유�?ANASTASIS (2).jpg',
-                '?�장 ?�진/?�유�?ANASTASIS (4).jpg',
-                '?�장 ?�진/?�유�?ANASTASIS (5).JPG',
+                '?�장 ?�진/0. ?�스??1.png',
+                '?�장 ?�진/0. ?�스??2.png',
+                '?�장 ?�진/1. ?�포?�스??JPG???�본.jpg',
+                '?�장 ?�진/1. ?�시???�구1.jpg',
+                '?�장 ?�진/1. ?�시???�구2.jpg',
+                '?�장 ?�진/1. ?�시???�구3.jpg',
+                '?�장 ?�진/김?�규 _ Face to Dot_1.jpg',
+                '?�장 ?�진/김?�규 _ Face to Dot_2.jpg',
+                '?�장 ?�진/김?�규 _ Face to Dot_3.jpg',
+                '?�장 ?�진/김?�규 _ Face to Dot_5.JPG',
+                '?�장 ?�진/김?�규, ?�아?? ?�서??_ ?�릿_1.png',
+                '?�장 ?�진/김?�규, ?�아?? ?�서??_ ?�릿_2.png',
+                '?�장 ?�진/김?�규, ?�아?? ?�서??_ ?�릿_3.png',
+                '?�장 ?�진/김민승 _ Snover_1.jpg',
+                '?�장 ?�진/김민승 _ Snover_2.JPG',
+                '?�장 ?�진/김민승 _ Snover_3.JPG',
+                '?�장 ?�진/김?�효, ?�효?� _ DISTORT_1.jpeg',
+                '?�장 ?�진/김?�효, ?�효?� _ DISTORT_2.jpeg',
+                '?�장 ?�진/김?�효, ?�효?� _ DISTORT_3.JPG',
+                '?�장 ?�진/김?�효, ?�효?� _ DISTORT_4.png',
+                '?�장 ?�진/김?�효, ?�효?� _ DISTORT_5.png',
+                '?�장 ?�진/김?�효, ?�효?� _ DISTORT_6.png',
+                '?�장 ?�진/김?�진 _ TEHE_1.jpg',
+                '?�장 ?�진/김?�진 _ TEHE_2.jpg',
+                '?�장 ?�진/김?�진 _ TEHE_3.jpg',
+                '?�장 ?�진/박승준 _ 천일?�천?�안1.png',
+                '?�장 ?�진/박승준 _ 천일?�천?�안2.png',
+                '?�장 ?�진/박승준 _ 천일?�천?�안3.jpg',
+                '?�장 ?�진/박승준 _ 천일?�천?�안5.png',
+                '?�장 ?�진/박승준 _ 천일?�천?�안6.png',
+                '?�장 ?�진/박승준 _ 천일?�천?�안7.png',
+                '?�장 ?�진/박승준 _ 천일?�천?�안8.jpg',
+                '?�장 ?�진/박하�?Sensel(1).jpg',
+                '?�장 ?�진/박하�?Sensel(2).jpg',
+                '?�장 ?�진/박하�?Sensel(4).JPG',
+                '?�장 ?�진/박하�?Sensel(5).JPG',
+                '?�장 ?�진/박하�?Sensel(6).JPG',
+                '?�장 ?�진/박하�?Sensel(7).JPG',
+                '?�장 ?�진/박하�??�중??1.JPG',
+                '?�장 ?�진/박하�??�중??2.jpg',
+                '?�장 ?�진/박하�??�중??3.JPG',
+                '?�장 ?�진/박하�??�중??4.JPG',
+                '?�장 ?�진/배정??_ Career Fit 1(1).png',
+                '?�장 ?�진/배정??_ Career Fit 1.png',
+                '?�장 ?�진/?�아??_ Keeple_1.jpg',
+                '?�장 ?�진/?�아??_ Keeple_2.jpg',
+                '?�장 ?�진/?�아??_ Keeple_3.JPG',
+                '?�장 ?�진/?�세??_ Cache_1.jpeg',
+                '?�장 ?�진/?�세??_ Cache_2.JPG',
+                '?�장 ?�진/?�세??_ Cache_3.JPG',
+                '?�장 ?�진/?�영??_ un_known 1.jpg',
+                '?�장 ?�진/?�영??_ un_known 2.jpg',
+                '?�장 ?�진/?�영??_ un_known 3.jpg',
+                '?�장 ?�진/?�영??_ un_known 4.jpg',
+                '?�장 ?�진/?�영??_ un_known 5.jpg',
+                '?�장 ?�진/?�서??_ Inframe_.jpg',
+                '?�장 ?�진/?��???쿠셈�?.JPG',
+                '?�장 ?�진/?��???쿠셈�?.jpeg',
+                '?�장 ?�진/?��???_ Keep Your moment.JPG',
+                '?�장 ?�진/?�유�?ANASTASIS (11).jpg',
+                '?�장 ?�진/?�유�?ANASTASIS (2).jpg',
+                '?�장 ?�진/?�유�?ANASTASIS (4).jpg',
+                '?�장 ?�진/?�유�?ANASTASIS (5).JPG',
             ];
 
             if (images.length === 0) {
-                gallery.innerHTML = '<p style="text-align: center; color: rgba(255,255,255,0.6); padding: 3rem; grid-column: 1 / -1;">?�직 추�????�장 ?�진???�습?�다.<br><br>?�장 ?�진 ?�더???��?지�?추�??�고 ?�크립트??images 배열???�일명을 추�??�주?�요.</p>';
+                gallery.innerHTML = '<p style="text-align: center; color: rgba(255,255,255,0.6); padding: 3rem; grid-column: 1 / -1;">?�직 추�????�장 ?�진???�습?�다.<br><br>?�장 ?�진 ?�더???��?지�?추�??�고 ?�크립트??images 배열???�일명을 추�??�주?�요.</p>';
                 return;
             }
 
             imageList = images;
             
-            // �?번째 ?��?지�?미리보기???�시
+            // �?번째 ?��?지�?미리보기???�시
             previewImage.src = images[0];
             previewImage.onerror = function() {
                 this.src = '';
             };
             
-            // ?�네???�성
+            // ?�네???�성
             images.forEach((src, index) => {
                 const photoItem = document.createElement('div');
                 photoItem.className = 'photo-item';
@@ -677,9 +689,9 @@
                 
                 const img = document.createElement('img');
                 img.src = src;
-                img.alt = `?�장 ?�진 ${index + 1}`;
+                img.alt = `?�장 ?�진 ${index + 1}`;
                 img.onerror = function() {
-                    this.parentElement.innerHTML = '<div class="photo-placeholder">?��?지 로드 ?�패</div>';
+                    this.parentElement.innerHTML = '<div class="photo-placeholder">?��?지 로드 ?�패</div>';
                 };
                 
                 photoItem.appendChild(img);
@@ -687,7 +699,7 @@
             });
         }
 
-        // ?��?지 ?�택
+        // ?��?지 ?�택
         function selectImage(index) {
             if (imageList.length === 0) return;
             
@@ -695,13 +707,13 @@
             const previewImage = document.getElementById('previewImage');
             previewImage.src = imageList[currentImageIndex];
             
-            // ?�성 ?�네???�데?�트
+            // ?�성 ?�네???�데?�트
             document.querySelectorAll('.photo-item').forEach((item, i) => {
                 item.classList.toggle('active', i === index);
             });
         }
 
-        // ?�전 ?��?지
+        // ?�전 ?��?지
         function previousImage(event) {
             event.stopPropagation();
             if (imageList.length === 0) return;
@@ -711,7 +723,7 @@
             selectImage(currentImageIndex);
         }
 
-        // ?�음 ?��?지
+        // ?�음 ?��?지
         function nextImage(event) {
             event.stopPropagation();
             if (imageList.length === 0) return;
@@ -721,7 +733,7 @@
             selectImage(currentImageIndex);
         }
 
-        // ?�체보기 (?�이?�박??
+        // ?�체보기 (?�이?�박??
         function openFullscreen() {
             if (imageList.length === 0) return;
             
@@ -731,13 +743,13 @@
             lightbox.classList.add('active');
         }
 
-        // ?�이?�박???�기
+        // ?�이?�박???�기
         function closeLightbox() {
             const lightbox = document.getElementById('lightbox');
             lightbox.classList.remove('active');
         }
 
-        // ?�이?�박???��?지 ?�비게이??
+        // ?�이?�박???��?지 ?�비게이??
         function navigateLightbox(event, direction) {
             event.stopPropagation();
             if (imageList.length === 0) return;
@@ -749,7 +761,7 @@
             const lightboxImg = document.getElementById('lightboxImg');
             lightboxImg.src = imageList[currentImageIndex];
             
-            // 미리보기?� ?�네?�도 ?�께 ?�데?�트
+            // 미리보기?� ?�네?�도 ?�께 ?�데?�트
             const previewImage = document.getElementById('previewImage');
             previewImage.src = imageList[currentImageIndex];
             
@@ -758,7 +770,7 @@
             });
         }
 
-        // ESC ?�로 ?�이?�박???�기
+        // ESC ?�로 ?�이?�박???�기
         document.addEventListener('keydown', function(e) {
             if (e.key === 'Escape') {
                 closeLightbox();
@@ -769,7 +781,7 @@
             }
         });
 
-        // ?�이지 로드 ??갤러�??��?지 로드
+        // ?�이지 로드 ??갤러�??��?지 로드
         window.addEventListener('load', loadGalleryImages);
     </script>
 </body>
