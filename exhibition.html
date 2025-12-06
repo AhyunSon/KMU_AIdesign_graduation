@@ -49,7 +49,13 @@
 
         @keyframes spin {
             to { transform: rotate(360deg); }
-        }`n`n        /* 로딩 중 모든 콘텐츠 숨기기 */`n        body:not(.loaded) .main-content,`n        body:not(.loaded) nav {`n            visibility: hidden;`n        }
+        }
+
+        /* 로딩 중 모든 콘텐츠 숨기기 */
+        body:not(.loaded) .main-content,
+        body:not(.loaded) nav {
+            visibility: hidden;
+        }
 
         /* 네비게이션 바 */
         nav {
