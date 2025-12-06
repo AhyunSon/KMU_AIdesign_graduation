@@ -1,9 +1,9 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>?�시?�개 - AIxD ??1??졸업?�시 'NULL'</title>
+    <title>전시소개 - AIxD 제1회 졸업전시 'NULL'</title>
     <style>
         * {
             margin: 0;
@@ -18,7 +18,7 @@
             line-height: 1.6;
         }
 
-        /* 로딩 ?�피??*/
+        /* 로딩 스피너 */
         .page-loader {
             position: fixed;
             top: 0;
@@ -51,7 +51,7 @@
             to { transform: rotate(360deg); }
         }`n`n        /* 로딩 중 모든 콘텐츠 숨기기 */`n        body:not(.loaded) .main-content,`n        body:not(.loaded) nav {`n            visibility: hidden;`n        }
 
-        /* ?�비게이??�?*/
+        /* 네비게이션 바 */
         nav {
             position: fixed;
             top: 0;
@@ -176,7 +176,7 @@
             width: 100%;
         }
 
-        /* ?�버?�이 ?��?지 컨테?�너 */
+        /* 오버레이 이미지 컨테이너 */
         .overlay-container {
             position: relative;
             width: 100%;
@@ -193,7 +193,7 @@
             display: block;
         }
 
-        /* ?�버?�이 ?��?지??*/
+        /* 오버레이 이미지들 */
         .overlay-image {
             position: absolute;
             width: auto;
@@ -209,7 +209,7 @@
             max-width: 70%;
         }
 
-        /* 2_1 - 좌측 ?�단 ?�다?�기 */
+        /* 2_1 - 좌측 상단 떠다니기 */
         .overlay-2-1 {
             top: 20%;
             left: 5%;
@@ -218,7 +218,7 @@
             animation: float1 4s ease-in-out infinite;
         }
 
-        /* 2_2 - ?�측 중앙 ?�다?�기 */
+        /* 2_2 - 우측 중앙 떠다니기 */
         .overlay-2-2 {
             top: 55%;
             right: 8%;
@@ -227,7 +227,7 @@
             animation: float2 5s ease-in-out infinite;
         }
 
-        /* 2_3 - 좌측 ?�단 ?�다?�기 */
+        /* 2_3 - 좌측 하단 떠다니기 */
         .overlay-2-3 {
             bottom: 25%;
             left: 10%;
@@ -236,7 +236,7 @@
             animation: float3 4.5s ease-in-out infinite;
         }
 
-        /* Info3 ?�션 */
+        /* Info3 섹션 */
         .exhibition-info3-section {
             position: relative;
             width: 100%;
@@ -248,7 +248,7 @@
             display: block;
         }
 
-        /* 3_1 - ?�단 */
+        /* 3_1 - 상단 */
         .overlay-3-1 {
             top: 10%;
             left: 50%;
@@ -266,7 +266,7 @@
             max-width: 70%;
         }
 
-        /* 3_3 - ?�단 */
+        /* 3_3 - 하단 */
         .overlay-3-3 {
             bottom: 12%;
             left: 50%;
@@ -275,7 +275,7 @@
             max-width: 73%;
         }
 
-        /* ?�크�??�이?�인 ?�과 */
+        /* 스크롤 페이드인 효과 */
         .overlay-3-1,
         .overlay-3-2,
         .overlay-3-3 {
@@ -657,12 +657,12 @@
     </style>
 </head>
 <body>
-    <!-- 로딩 ?�피??-->
+    <!-- 로딩 스피너 -->
     <div class="page-loader" id="pageLoader">
         <div class="spinner"></div>
     </div>
 
-    <!-- ?�비게이??�?-->
+    <!-- 네비게이션 바 -->
     <nav>
         <div class="nav-container">
             <a href="index.html" class="nav-logo">
@@ -685,35 +685,35 @@
         </div>
     </nav>
 
-    <!-- 메인 컨텐�?-->
+    <!-- 메인 컨텐츠 -->
     <div class="main-content">
-        <!-- ?�시 ?�개 ?��?지 1 -->
+        <!-- 전시 소개 이미지 1 -->
         <section class="section" id="about-null">
-            <img src="exhibition_info1.svg" alt="?�시?�개 1" style="width: 100%; height: auto; display: block;">
+            <img src="exhibition_info1.svg" alt="전시소개 1" style="width: 100%; height: auto; display: block;">
         </section>
 
-        <!-- ?�시 ?�개 ?��?지 2 -->
+        <!-- 전시 소개 이미지 2 -->
         <section class="section">
             <div class="exhibition-info2-section">
-                <img src="exhibition_info2.svg" alt="?�시?�개 2" style="width: 100%; height: auto; display: block;">
-                
-                <!-- ?�버?�이 ?��?지??-->
-                <img src="exhibition_info2_1.svg" alt="?�버?�이 1" class="overlay-image overlay-2-1">
-                <img src="exhibition_info2_0.svg" alt="?�버?�이 0" class="overlay-image overlay-2-0">
-                <img src="exhibition_info2_2.svg" alt="?�버?�이 2" class="overlay-image overlay-2-2">
-                <img src="exhibition_info2_3.svg" alt="?�버?�이 3" class="overlay-image overlay-2-3">
+                <img src="exhibition_info2.svg" alt="전시소개 2" style="width: 100%; height: auto; display: block;">
+
+                <!-- 오버레이 이미지들 -->
+                <img src="exhibition_info2_1.svg" alt="오버레이 1" class="overlay-image overlay-2-1">
+                <img src="exhibition_info2_0.svg" alt="오버레이 0" class="overlay-image overlay-2-0">
+                <img src="exhibition_info2_2.svg" alt="오버레이 2" class="overlay-image overlay-2-2">
+                <img src="exhibition_info2_3.svg" alt="오버레이 3" class="overlay-image overlay-2-3">
             </div>
         </section>
 
-        <!-- ?�시 ?�개 ?��?지 3 -->
+        <!-- 전시 소개 이미지 3 -->
         <section class="section">
             <div class="exhibition-info3-section">
-                <img src="exhibition_info3.svg" alt="?�시?�개 3" style="width: 100%; height: auto; display: block;">
-                
-                <!-- ?�버?�이 ?��?지??-->
-                <img src="exhibition_info3_1.svg" alt="?�버?�이 1" class="overlay-image overlay-3-1">
-                <img src="exhibition_info3_2.svg" alt="?�버?�이 2" class="overlay-image overlay-3-2">
-                <img src="exhibition_info3_3.svg" alt="?�버?�이 3" class="overlay-image overlay-3-3">
+                <img src="exhibition_info3.svg" alt="전시소개 3" style="width: 100%; height: auto; display: block;">
+
+                <!-- 오버레이 이미지들 -->
+                <img src="exhibition_info3_1.svg" alt="오버레이 1" class="overlay-image overlay-3-1">
+                <img src="exhibition_info3_2.svg" alt="오버레이 2" class="overlay-image overlay-3-2">
+                <img src="exhibition_info3_3.svg" alt="오버레이 3" class="overlay-image overlay-3-3">
             </div>
         </section>
 
@@ -721,10 +721,16 @@
         <section class="section opening-film-section" id="opening-film">
             <h2 class="section-title">Opening Film</h2>
             <div class="video-container">
-                <video controls preload="metadata">
-                    <source src="https://www.dropbox.com/scl/fi/nxeokw3k3ozev6qr5aov2/Opening-Film.mp4?rlkey=d03xz8xczyja21blso2r1xeba&st=5nr6zp61&dl=1" type="video/mp4">
-                    브라?��?가 비디???�그�?지?�하지 ?�습?�다.
-                </video>
+                <iframe
+                    width="100%"
+                    height="506"
+                    src="https://www.youtube.com/embed/ARPb-fNLENA"
+                    title="Opening Film"
+                    frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    allowfullscreen
+                    loading="lazy">
+                </iframe>
             </div>
         </section>
 
@@ -732,32 +738,38 @@
         <section class="section opening-film-section" id="interview-film">
             <h2 class="section-title">Interview Film</h2>
             <div class="video-container">
-                <video controls preload="metadata">
-                    <source src="https://www.dropbox.com/scl/fi/f16vmjupknwhbfb8c0vlp/interview-film.mp4?rlkey=m6l3jwiu1eetxrnin67a1iymf&st=vrxi7hqy&dl=1" type="video/mp4">
-                    브라?��?가 비디???�그�?지?�하지 ?�습?�다.
-                </video>
+                <iframe
+                    width="100%"
+                    height="506"
+                    src="https://www.youtube.com/embed/abHP88nCYXY"
+                    title="Interview Film"
+                    frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    allowfullscreen
+                    loading="lazy">
+                </iframe>
             </div>
         </section>
 
-        <!-- 참여 ?�생 -->
+        <!-- 참여 학생 -->
         <section class="section participants-section" id="participants">
-            <h2 class="section-title">참여 ?�생</h2>
+            <h2 class="section-title">참여 학생</h2>
             <div class="participants-grid">
                 <div class="participant-card">
                     <div class="participant-flip-container">
                         <div class="participant-flip-inner">
                             <div class="participant-flip-front">
-                                <img loading="lazy" src="김?�규_pf.svg" alt="김?�규" class="participant-photo">
+                                <img loading="lazy" src="김동규_pf.svg" alt="김동규" class="participant-photo">
                             </div>
                             <div class="participant-flip-back">
                                 <div class="participant-work-cards">
-                                    <img src="kim_card.svg" alt="김?�규 ?�품1" class="participant-card-image" onclick="window.location.href='facetodot.html'">
-                                    <img src="sorit.svg" alt="김?�규 ?�품2" class="participant-card-image" onclick="window.location.href='sorit.html'">
+                                    <img src="kim_card.svg" alt="김동규 작품1" class="participant-card-image" onclick="window.location.href='facetodot.html'">
+                                    <img src="sorit.svg" alt="김동규 작품2" class="participant-card-image" onclick="window.location.href='sorit.html'">
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="participant-name">김?�규 <span class="participant-name-en">| Kim donggyu</span></div>
+                    <div class="participant-name">김동규 <span class="participant-name-en">| Kim Donggyu</span></div>
                     <div class="participant-email">kdg0534@kookmin.ac.kr</div>
                 </div>
                 <div class="participant-card">
@@ -767,7 +779,7 @@
                                 <img loading="lazy" src="김민승_pf.svg" alt="김민승" class="participant-photo">
                             </div>
                             <div class="participant-flip-back">
-                                <img src="sno.svg" alt="김민승 ?�품" class="participant-card-image" onclick="window.location.href='snover.html'">
+                                <img src="sno.svg" alt="김민승 작품" class="participant-card-image" onclick="window.location.href='snover.html'">
                             </div>
                         </div>
                     </div>
@@ -778,28 +790,28 @@
                     <div class="participant-flip-container">
                         <div class="participant-flip-inner">
                             <div class="participant-flip-front">
-                                <img loading="lazy" src="김?�효_pf.svg" alt="김?�효" class="participant-photo">
+                                <img loading="lazy" src="김승효_pf.svg" alt="김승효" class="participant-photo">
                             </div>
                             <div class="participant-flip-back">
-                                <img src="HH.svg" alt="김?�효 ?�품" class="participant-card-image" onclick="window.location.href='distort.html'">
+                                <img src="HH.svg" alt="김승효 작품" class="participant-card-image" onclick="window.location.href='distort.html'">
                             </div>
                         </div>
                     </div>
-                    <div class="participant-name">김?�효 <span class="participant-name-en">| Kim Seunghyo</span></div>
+                    <div class="participant-name">김승효 <span class="participant-name-en">| Kim Seunghyo</span></div>
                     <div class="participant-email">gyuwon0605@gmail.com</div>
                 </div>
                 <div class="participant-card">
                     <div class="participant-flip-container">
                         <div class="participant-flip-inner">
                             <div class="participant-flip-front">
-                                <img loading="lazy" src="김?�진_pf.svg" alt="김?�진" class="participant-photo">
+                                <img loading="lazy" src="김유진_pf.svg" alt="김유진" class="participant-photo">
                             </div>
                             <div class="participant-flip-back">
-                                <img src="you.svg" alt="김?�진 ?�품" class="participant-card-image" onclick="window.location.href='tehe.html'">
+                                <img src="you.svg" alt="김유진 작품" class="participant-card-image" onclick="window.location.href='tehe.html'">
                             </div>
                         </div>
                     </div>
-                    <div class="participant-name">김?�진 <span class="participant-name-en">| Kim Eujin</span></div>
+                    <div class="participant-name">김유진 <span class="participant-name-en">| Kim Yujin</span></div>
                     <div class="participant-email">gibbumkim@kookmin.ac.kr</div>
                 </div>
                 <div class="participant-card">
@@ -809,7 +821,7 @@
                                 <img loading="lazy" src="박승준_pf.svg" alt="박승준" class="participant-photo">
                             </div>
                             <div class="participant-flip-back">
-                                <img src="박승준명함.svg" alt="박승준 ?�품" class="participant-card-image" onclick="window.location.href='?��??�千一??html'">
+                                <img src="박승준명함.svg" alt="박승준 작품" class="participant-card-image" onclick="window.location.href='千一手千一眼.html'">
                             </div>
                         </div>
                     </div>
@@ -820,149 +832,149 @@
                     <div class="participant-flip-container">
                         <div class="participant-flip-inner">
                             <div class="participant-flip-front">
-                                <img src="박하�?pf.svg" alt="박하�? class="participant-photo">
+                                <img src="박하경_pf.svg" alt="박하경" class="participant-photo">
                             </div>
                             <div class="participant-flip-back">
                                 <div class="participant-work-cards">
-                                    <img src="II.svg" alt="박하�??�품1" class="participant-card-image" onclick="window.location.href='jingzhongdong.html'">
-                                    <img src="SEN.svg" alt="박하�??�품2" class="participant-card-image" onclick="window.location.href='sensel.html'">
+                                    <img src="II.svg" alt="박하경 작품1" class="participant-card-image" onclick="window.location.href='靜中動.html'">
+                                    <img src="SEN.svg" alt="박하경 작품2" class="participant-card-image" onclick="window.location.href='sensel.html'">
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="participant-name">박하�?<span class="participant-name-en">| Park Hagyeong</span></div>
+                    <div class="participant-name">박하경 <span class="participant-name-en">| Park Hagyeong</span></div>
                     <div class="participant-email">hagyeong.artspace@gmail.com</div>
                 </div>
                 <div class="participant-card">
                     <div class="participant-flip-container">
                         <div class="participant-flip-inner">
                             <div class="participant-flip-front">
-                                <img src="배정??pf.svg" alt="배정?? class="participant-photo">
+                                <img src="배정윤_pf.svg" alt="배정윤" class="participant-photo">
                             </div>
                             <div class="participant-flip-back">
-                                <img src="car.svg" alt="배정???�품" class="participant-card-image" onclick="window.location.href='career-fit.html'">
+                                <img src="car.svg" alt="배정윤 작품" class="participant-card-image" onclick="window.location.href='career-fit.html'">
                             </div>
                         </div>
                     </div>
-                    <div class="participant-name">배정??<span class="participant-name-en">| Bae Jeongyun</span></div>
+                    <div class="participant-name">배정윤 <span class="participant-name-en">| Bae Jeongyun</span></div>
                     <div class="participant-email">derman@kookmin.ac.kr</div>
                 </div>
                 <div class="participant-card">
                     <div class="participant-flip-container">
                         <div class="participant-flip-inner">
                             <div class="participant-flip-front">
-                                <img src="?�아??pf.svg" alt="?�아?? class="participant-photo">
+                                <img src="손아현_pf.svg" alt="손아현" class="participant-photo">
                             </div>
                             <div class="participant-flip-back">
                                 <div class="participant-work-cards">
-                                    <img src="kee.svg" alt="?�아???�품1" class="participant-card-image" onclick="window.location.href='keeple.html'">
-                                    <img src="sorit.svg" alt="?�아???�품2" class="participant-card-image" onclick="window.location.href='sorit.html'">
+                                    <img src="kee.svg" alt="손아현 작품1" class="participant-card-image" onclick="window.location.href='keeple.html'">
+                                    <img src="sorit.svg" alt="손아현 작품2" class="participant-card-image" onclick="window.location.href='sorit.html'">
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="participant-name">?�아??<span class="participant-name-en">| Son Ahyun</span></div>
+                    <div class="participant-name">손아현 <span class="participant-name-en">| Son Ahyun</span></div>
                     <div class="participant-email">sah7477@kookmin.ac.kr</div>
                 </div>
                 <div class="participant-card">
                     <div class="participant-flip-container">
                         <div class="participant-flip-inner">
                             <div class="participant-flip-front">
-                                <img src="?�세??pf.svg" alt="?�세?? class="participant-photo">
+                                <img src="안세정_pf.svg" alt="안세정" class="participant-photo">
                             </div>
                             <div class="participant-flip-back">
-                                <img src="ga.svg" alt="?�세???�품" class="participant-card-image" onclick="window.location.href='cache.html'">
+                                <img src="ga.svg" alt="안세정 작품" class="participant-card-image" onclick="window.location.href='cache.html'">
                             </div>
                         </div>
                     </div>
-                    <div class="participant-name">?�세??<span class="participant-name-en">| An Sejeong</span></div>
+                    <div class="participant-name">안세정 <span class="participant-name-en">| An Sejeong</span></div>
                     <div class="participant-email">asj7781@kookmin.ac.kr</div>
                 </div>
                 <div class="participant-card">
                     <div class="participant-flip-container">
                         <div class="participant-flip-inner">
                             <div class="participant-flip-front">
-                                <img src="?�영??pf.svg" alt="?�영?? class="participant-photo">
+                                <img src="유영현_pf.svg" alt="유영현" class="participant-photo">
                             </div>
                             <div class="participant-flip-back">
-                                <img src="unun.svg" alt="?�영???�품" class="participant-card-image" onclick="window.location.href='unknown.html'">
+                                <img src="unun.svg" alt="유영현 작품" class="participant-card-image" onclick="window.location.href='un-known.html'">
                             </div>
                         </div>
                     </div>
-                    <div class="participant-name">?�영??<span class="participant-name-en">| You YoungHyun</span></div>
+                    <div class="participant-name">유영현 <span class="participant-name-en">| You Younghyun</span></div>
                     <div class="participant-email">sally4285@kookmin.ac.kr</div>
                 </div>
                 <div class="participant-card">
                     <div class="participant-flip-container">
                         <div class="participant-flip-inner">
                             <div class="participant-flip-front">
-                                <img src="?�서??pf.svg" alt="?�서?? class="participant-photo">
+                                <img src="윤서연_pf.svg" alt="윤서연" class="participant-photo">
                             </div>
                             <div class="participant-flip-back">
                                 <div class="participant-work-cards">
-                                    <img src="jj.svg" alt="?�서???�품1" class="participant-card-image" onclick="window.location.href='inframe.html'">
-                                    <img src="sorit.svg" alt="?�서???�품2" class="participant-card-image" onclick="window.location.href='sorit.html'">
+                                    <img src="jj.svg" alt="윤서연 작품1" class="participant-card-image" onclick="window.location.href='inframe.html'">
+                                    <img src="sorit.svg" alt="윤서연 작품2" class="participant-card-image" onclick="window.location.href='sorit.html'">
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="participant-name">?�서??<span class="participant-name-en">| Yoon Seoyeon</span></div>
+                    <div class="participant-name">윤서연 <span class="participant-name-en">| Yoon Seoyeon</span></div>
                     <div class="participant-email">Iynn0330@kookmin.ac.kr</div>
                 </div>
                 <div class="participant-card">
                     <div class="participant-flip-container">
                         <div class="participant-flip-inner">
                             <div class="participant-flip-front">
-                                <img src="?��???pf.svg" alt="?��??? class="participant-photo">
+                                <img src="이은서_pf.svg" alt="이은서" class="participant-photo">
                             </div>
                             <div class="participant-flip-back">
-                                <img src="cu.svg" alt="?��????�품" class="participant-card-image" onclick="window.location.href='cussemble.html'">
+                                <img src="cu.svg" alt="이은서 작품" class="participant-card-image" onclick="window.location.href='cussemble.html'">
                             </div>
                         </div>
                     </div>
-                    <div class="participant-name">?��???<span class="participant-name-en">| Lee Eunseo</span></div>
+                    <div class="participant-name">이은서 <span class="participant-name-en">| Lee Eunseo</span></div>
                     <div class="participant-email">eunseolee@kookmin.ac.kr</div>
                 </div>
                 <div class="participant-card">
                     <div class="participant-flip-container">
                         <div class="participant-flip-inner">
                             <div class="participant-flip-front">
-                                <img src="?��???pf.svg" alt="?��??? class="participant-photo">
+                                <img src="이지윤_pf.svg" alt="이지윤" class="participant-photo">
                             </div>
                             <div class="participant-flip-back">
-                                <img src="keep.svg" alt="?��????�품" class="participant-card-image" onclick="window.location.href='keep-your-moment.html'">
+                                <img src="keep.svg" alt="이지윤 작품" class="participant-card-image" onclick="window.location.href='keepyourmoment.html'">
                             </div>
                         </div>
                     </div>
-                    <div class="participant-name">?��???<span class="participant-name-en">| Lee Jiyun</span></div>
+                    <div class="participant-name">이지윤 <span class="participant-name-en">| Lee Jiyun</span></div>
                     <div class="participant-email">lgy4494@kookmin.ac.kr</div>
                 </div>
                 <div class="participant-card">
                     <div class="participant-flip-container">
                         <div class="participant-flip-inner">
                             <div class="participant-flip-front">
-                                <img loading="lazy" src="?�효?�_pf.svg" alt="?�효?�" class="participant-photo">
+                                <img loading="lazy" src="이효은_pf.svg" alt="이효은" class="participant-photo">
                             </div>
                             <div class="participant-flip-back">
-                                <img src="HH.svg" alt="?�효?� ?�품" class="participant-card-image" onclick="window.location.href='distort.html'">
+                                <img src="HH.svg" alt="이효은 작품" class="participant-card-image" onclick="window.location.href='distort.html'">
                             </div>
                         </div>
                     </div>
-                    <div class="participant-name">?�효?� <span class="participant-name-en">| Lee Hyoeun</span></div>
+                    <div class="participant-name">이효은 <span class="participant-name-en">| Lee Hyoeun</span></div>
                     <div class="participant-email">hyo3747eun1@gmail.com</div>
                 </div>
                 <div class="participant-card">
                     <div class="participant-flip-container">
                         <div class="participant-flip-inner">
                             <div class="participant-flip-front">
-                                <img src="?�유�?pf.svg" alt="?�유�? class="participant-photo">
+                                <img src="임유리_pf.svg" alt="임유리" class="participant-photo">
                             </div>
                             <div class="participant-flip-back">
-                                <img src="im.svg" alt="?�유�??�품" class="participant-card-image" onclick="window.location.href='fmxis-anastasis.html'">
+                                <img src="im.svg" alt="임유리 작품" class="participant-card-image" onclick="window.location.href='fmxis-anastasis.html'">
                             </div>
                         </div>
                     </div>
-                    <div class="participant-name">?�유�?<span class="participant-name-en">| Lim Yuri</span></div>
+                    <div class="participant-name">임유리 <span class="participant-name-en">| Lim Yuri</span></div>
                     <div class="participant-email">vring000@kookmin.ac.kr</div>
                 </div>
             </div>
@@ -975,14 +987,14 @@
 
         <!-- Footer -->
         <footer class="footer">
-            <p>�???�?�교 조형?�??AI?�자?�학�?/p>
-            <p>?�울?�별???�북�??�릉�?77 �???�?�교 조형?�??/p>
+            <p>국민대학교 조형대학 AI디자인학과</p>
+            <p>서울특별시 성북구 정릉로 77 국민대학교 조형대학</p>
             <p>Copyright 2022. Kookmin University. All rights reserved.</p>
         </footer>
     </div>
 
     <script>
-        // ?�이지 DOM 로드 ?�료???�피???�거 (??빠른 ?�시)
+        // 페이지 DOM 로드 완료시 스피너 제거 (더 빠른 표시)
         document.addEventListener('DOMContentLoaded', function() {
             const loader = document.getElementById('pageLoader');
             document.body.classList.add('loaded');
@@ -1028,7 +1040,7 @@
             workImages.forEach(img => {
                 img.addEventListener('click', function(e) {
                     e.stopPropagation();
-                    // onclick ?�성?�서 ?�행
+                    // onclick 속성에서 실행
                     if (this.onclick) {
                         this.onclick.call(this);
                     }
@@ -1046,7 +1058,7 @@
             });
         });
 
-        // ?�크�??�이?�인 ?�과
+        // 스크롤 페이드인 효과
         function handleScrollFadeIn() {
             const overlays = document.querySelectorAll('.overlay-3-1, .overlay-3-2, .overlay-3-3');
             
@@ -1054,16 +1066,16 @@
                 const rect = overlay.getBoundingClientRect();
                 const windowHeight = window.innerHeight;
                 
-                // ?�소가 ?�면??30% ?�상 보이�?visible ?�래??추�?
+                // 요소가 화면의 30% 이상 보이면 visible 클래스 추가
                 if (rect.top < windowHeight * 0.7 && rect.bottom > windowHeight * 0.3) {
                     overlay.classList.add('visible');
                 }
             });
         }
 
-        // ?�크�??�벤??리스??
+        // 스크롤 이벤트 리스너
         window.addEventListener('scroll', handleScrollFadeIn);
-        // ?�이지 로드 ?�에??체크
+        // 페이지 로드 시에도 체크
         window.addEventListener('load', handleScrollFadeIn);
     </script>
 </body>
