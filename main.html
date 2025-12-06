@@ -306,10 +306,53 @@
             animation-duration: 3s;
         }
 
-        /* null 카드 애니메이션 타이밍 */
+        /* null 카드 - 중앙 고정 + floating */
         #svg-container17 {
-            animation-delay: 1.6s;
-            animation-duration: 3s;
+            position: fixed;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 100;
+            animation-delay: 0s;
+            animation-duration: 4s;
+        }
+
+        #svg-container17.visible {
+            animation: floatCenter 4s ease-in-out infinite;
+        }
+
+        @keyframes floatCenter {
+            0%, 100% {
+                transform: translate(-50%, -50%) translateY(0px);
+            }
+            25% {
+                transform: translate(-50%, -50%) translateY(-15px);
+            }
+            50% {
+                transform: translate(-50%, -50%) translateY(-8px);
+            }
+            75% {
+                transform: translate(-50%, -50%) translateY(-20px);
+            }
+        }
+
+        #svg-container17.escape {
+            animation: escapeCenter 0.5s ease-out forwards !important;
+        }
+
+        @keyframes escapeCenter {
+            0% {
+                transform: translate(-50%, -50%) translateY(0px) rotate(0deg);
+                opacity: 1;
+            }
+            50% {
+                transform: translate(-50%, -50%) translateY(-50px) rotate(180deg) scale(0.8);
+                opacity: 0.7;
+            }
+            100% {
+                transform: translate(-50%, -50%) translateY(-100px) rotate(360deg) scale(0.3);
+                opacity: 0;
+            }
         }
 
         .svg-container img {
@@ -822,8 +865,21 @@
         function positionAllCards() {
             // 기존 배치 정보 초기화
             placedCards = [];
-            
-            // 모든 명함을 한 번에 배치
+
+            // null 카드(svg-container17)는 중앙 고정이므로 먼저 배치 정보에 추가
+            const nullCard = document.getElementById('svg-container17');
+            const nullImg = nullCard.querySelector('img');
+            const centerX = window.innerWidth / 2 - nullImg.offsetWidth / 2;
+            const centerY = window.innerHeight / 2 - nullImg.offsetHeight / 2;
+            placedCards.push({
+                id: 'svg-container17',
+                x: centerX,
+                y: centerY,
+                width: nullImg.offsetWidth,
+                height: nullImg.offsetHeight
+            });
+
+            // 나머지 명함들 배치 (null 카드 제외)
             getRandomPosition('svg-container1');
             getRandomPosition('svg-container2');
             getRandomPosition('svg-container3');
@@ -840,7 +896,6 @@
             getRandomPosition('svg-container14');
             getRandomPosition('svg-container15');
             getRandomPosition('svg-container16');
-            getRandomPosition('svg-container17');
             
             // 모든 명함을 동시에 보이게 함 (애니메이션도 동시에 시작)
             setTimeout(() => {
@@ -864,48 +919,7 @@
             }, 100);
         }
         
-        // 새로고침 시에도 랜덤 위치 설정
-        window.addEventListener('beforeunload', function() {
-            placedCards = [];
-            getRandomPosition('svg-container1');
-            getRandomPosition('svg-container2');
-            getRandomPosition('svg-container3');
-            getRandomPosition('svg-container4');
-            getRandomPosition('svg-container5');
-            getRandomPosition('svg-container6');
-            getRandomPosition('svg-container7');
-            getRandomPosition('svg-container8');
-            getRandomPosition('svg-container9');
-            getRandomPosition('svg-container10');
-            getRandomPosition('svg-container11');
-            getRandomPosition('svg-container12');
-            getRandomPosition('svg-container13');
-            getRandomPosition('svg-container14');
-            getRandomPosition('svg-container15');
-            getRandomPosition('svg-container16');
-            getRandomPosition('svg-container17');
-            
-            // 모든 명함을 동시에 보이게 함
-            setTimeout(() => {
-                document.getElementById('svg-container1').classList.add('visible');
-                document.getElementById('svg-container2').classList.add('visible');
-                document.getElementById('svg-container3').classList.add('visible');
-                document.getElementById('svg-container4').classList.add('visible');
-                document.getElementById('svg-container5').classList.add('visible');
-                document.getElementById('svg-container6').classList.add('visible');
-                document.getElementById('svg-container7').classList.add('visible');
-                document.getElementById('svg-container8').classList.add('visible');
-                document.getElementById('svg-container9').classList.add('visible');
-                document.getElementById('svg-container10').classList.add('visible');
-                document.getElementById('svg-container11').classList.add('visible');
-                document.getElementById('svg-container12').classList.add('visible');
-                document.getElementById('svg-container13').classList.add('visible');
-                document.getElementById('svg-container14').classList.add('visible');
-                document.getElementById('svg-container15').classList.add('visible');
-                document.getElementById('svg-container16').classList.add('visible');
-                document.getElementById('svg-container17').classList.add('visible');
-            }, 50);
-        });
+        // 새로고침 시에도 랜덤 위치 설정 (beforeunload는 불필요하므로 제거)
 
         // Pixel transition on page load
         class PixelOverlay {
