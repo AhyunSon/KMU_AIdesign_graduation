@@ -1,5 +1,4 @@
-*.mp4 filter=lfs diff=lfs merge=lfs -text
-*.mp4 !text !filter !merge !diff
+# Only track files over 100MB with LFS
 interview[[:space:]]film.mp4 filter=lfs diff=lfs merge=lfs -text
 Opening[[:space:]]Film.mp4 filter=lfs diff=lfs merge=lfs -text
 이지윤3.gif filter=lfs diff=lfs merge=lfs -text
