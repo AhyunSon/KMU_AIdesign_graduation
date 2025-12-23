@@ -303,7 +303,7 @@
 
         .photo-gallery {
             display: grid;
-            grid-template-columns: repeat(5, 1fr);
+            grid-template-columns: repeat(6, 1fr);
             gap: 1rem;
             margin-top: 2rem;
             max-width: 900px;
@@ -467,6 +467,44 @@
             right: 2rem;
         }
 
+        /* 라이트박스 썸네일 스트립 */
+        .lightbox-thumbnails {
+            position: absolute;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 0.5rem;
+            max-width: 600px;
+            width: 90%;
+        }
+
+        .lightbox-thumb {
+            aspect-ratio: 1/1;
+            border-radius: 4px;
+            overflow: hidden;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: border-color 0.3s, opacity 0.3s;
+            opacity: 0.6;
+        }
+
+        .lightbox-thumb:hover {
+            opacity: 0.9;
+        }
+
+        .lightbox-thumb.active {
+            border-color: #c8ff3d;
+            opacity: 1;
+        }
+
+        .lightbox-thumb img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
         /* 모바일 반응형 */
         @media screen and (max-width: 768px) {
             .nav-container {
@@ -583,6 +621,9 @@
         <div class="lightbox-nav lightbox-prev" onclick="navigateLightbox(event, -1)">◀</div>
         <div class="lightbox-nav lightbox-next" onclick="navigateLightbox(event, 1)">▶</div>
         <img id="lightboxImg" src="" alt="확대 이미지">
+        <div class="lightbox-thumbnails" id="lightboxThumbnails" onclick="event.stopPropagation()">
+            <!-- 썸네일이 동적으로 추가됩니다 -->
+        </div>
     </div>
 
     <script>
@@ -600,6 +641,78 @@
 
         let currentImageIndex = 0;
         let imageList = [];
+        const IMAGES_PER_PAGE = 6;
+
+        // 현재 페이지 계산
+        function getCurrentPage() {
+            return Math.floor(currentImageIndex / IMAGES_PER_PAGE);
+        }
+
+        // 현재 페이지의 썸네일 업데이트
+        function updateThumbnails() {
+            const gallery = document.getElementById('photoGallery');
+            const currentPage = getCurrentPage();
+            const startIndex = currentPage * IMAGES_PER_PAGE;
+            const endIndex = Math.min(startIndex + IMAGES_PER_PAGE, imageList.length);
+
+            gallery.innerHTML = '';
+
+            for (let i = startIndex; i < endIndex; i++) {
+                const photoItem = document.createElement('div');
+                photoItem.className = 'photo-item';
+                if (i === currentImageIndex) photoItem.classList.add('active');
+                photoItem.onclick = () => selectImage(i);
+
+                const img = document.createElement('img');
+                img.src = imageList[i];
+                img.alt = `현장 사진 ${i + 1}`;
+                img.loading = 'lazy';
+
+                photoItem.appendChild(img);
+                gallery.appendChild(photoItem);
+            }
+        }
+
+        // 라이트박스 썸네일 업데이트
+        function updateLightboxThumbnails() {
+            const container = document.getElementById('lightboxThumbnails');
+            const currentPage = getCurrentPage();
+            const startIndex = currentPage * IMAGES_PER_PAGE;
+            const endIndex = Math.min(startIndex + IMAGES_PER_PAGE, imageList.length);
+
+            container.innerHTML = '';
+
+            for (let i = startIndex; i < endIndex; i++) {
+                const thumb = document.createElement('div');
+                thumb.className = 'lightbox-thumb';
+                if (i === currentImageIndex) thumb.classList.add('active');
+                thumb.onclick = (e) => {
+                    e.stopPropagation();
+                    selectImageInLightbox(i);
+                };
+
+                const img = document.createElement('img');
+                img.src = imageList[i];
+                img.alt = `현장 사진 ${i + 1}`;
+
+                thumb.appendChild(img);
+                container.appendChild(thumb);
+            }
+        }
+
+        // 라이트박스에서 이미지 선택
+        function selectImageInLightbox(index) {
+            currentImageIndex = index;
+            const lightboxImg = document.getElementById('lightboxImg');
+            lightboxImg.src = imageList[currentImageIndex];
+
+            // 미리보기도 업데이트
+            const previewImage = document.getElementById('previewImage');
+            previewImage.src = imageList[currentImageIndex];
+
+            updateThumbnails();
+            updateLightboxThumbnails();
+        }
 
         // 현장 사진 폴더에서 이미지 로드
         async function loadGalleryImages() {
@@ -679,44 +792,38 @@
             }
 
             imageList = images;
-            
+
             // 첫 번째 이미지를 미리보기에 표시
             previewImage.src = images[0];
             previewImage.onerror = function() {
                 this.src = '';
             };
-            
-            // 썸네일 생성
-            images.forEach((src, index) => {
-                const photoItem = document.createElement('div');
-                photoItem.className = 'photo-item';
-                if (index === 0) photoItem.classList.add('active');
-                photoItem.onclick = () => selectImage(index);
-                
-                const img = document.createElement('img');
-                img.src = src;
-                img.alt = `현장 사진 ${index + 1}`;
-                img.onerror = function() {
-                    this.parentElement.innerHTML = '<div class="photo-placeholder">이미지 로드 실패</div>';
-                };
-                
-                photoItem.appendChild(img);
-                gallery.appendChild(photoItem);
-            });
+
+            // 첫 페이지 썸네일 생성
+            updateThumbnails();
         }
 
         // 이미지 선택
         function selectImage(index) {
             if (imageList.length === 0) return;
-            
+
+            const prevPage = getCurrentPage();
             currentImageIndex = index;
+            const newPage = getCurrentPage();
+
             const previewImage = document.getElementById('previewImage');
             previewImage.src = imageList[currentImageIndex];
-            
-            // 활성 썸네일 업데이트
-            document.querySelectorAll('.photo-item').forEach((item, i) => {
-                item.classList.toggle('active', i === index);
-            });
+
+            // 페이지가 바뀌면 썸네일 전체 갱신, 아니면 active만 업데이트
+            if (prevPage !== newPage) {
+                updateThumbnails();
+            } else {
+                // 활성 썸네일 업데이트
+                const startIndex = newPage * IMAGES_PER_PAGE;
+                document.querySelectorAll('.photo-item').forEach((item, i) => {
+                    item.classList.toggle('active', (startIndex + i) === currentImageIndex);
+                });
+            }
         }
 
         // 이전 이미지
@@ -742,11 +849,14 @@
         // 전체보기 (라이트박스)
         function openFullscreen() {
             if (imageList.length === 0) return;
-            
+
             const lightbox = document.getElementById('lightbox');
             const lightboxImg = document.getElementById('lightboxImg');
             lightboxImg.src = imageList[currentImageIndex];
             lightbox.classList.add('active');
+
+            // 라이트박스 썸네일 업데이트
+            updateLightboxThumbnails();
         }
 
         // 라이트박스 닫기
@@ -759,21 +869,34 @@
         function navigateLightbox(event, direction) {
             event.stopPropagation();
             if (imageList.length === 0) return;
-            
+
+            const prevPage = getCurrentPage();
             currentImageIndex += direction;
             if (currentImageIndex < 0) currentImageIndex = imageList.length - 1;
             if (currentImageIndex >= imageList.length) currentImageIndex = 0;
-            
+            const newPage = getCurrentPage();
+
             const lightboxImg = document.getElementById('lightboxImg');
             lightboxImg.src = imageList[currentImageIndex];
-            
-            // 미리보기와 썸네일도 함께 업데이트
+
+            // 미리보기 업데이트
             const previewImage = document.getElementById('previewImage');
             previewImage.src = imageList[currentImageIndex];
-            
-            document.querySelectorAll('.photo-item').forEach((item, i) => {
-                item.classList.toggle('active', i === currentImageIndex);
-            });
+
+            // 페이지가 바뀌면 썸네일 전체 갱신
+            if (prevPage !== newPage) {
+                updateThumbnails();
+                updateLightboxThumbnails();
+            } else {
+                // 활성 썸네일만 업데이트
+                const startIndex = newPage * IMAGES_PER_PAGE;
+                document.querySelectorAll('.photo-item').forEach((item, i) => {
+                    item.classList.toggle('active', (startIndex + i) === currentImageIndex);
+                });
+                document.querySelectorAll('.lightbox-thumb').forEach((item, i) => {
+                    item.classList.toggle('active', (startIndex + i) === currentImageIndex);
+                });
+            }
         }
 
         // ESC 키로 라이트박스 닫기
