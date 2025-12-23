@@ -373,13 +373,17 @@
             padding-bottom: 10rem;
         }
 
+        .participants-wrapper {
+            width: fit-content;
+            margin: 0 auto;
+        }
+
         .participants-section .section-title {
             text-align: left;
-            padding: 0 120px;
-            margin-left: 0;
             border-bottom: none;
             font-size: 1.5rem;
-            margin-left: 120px;
+            margin: 0;
+            padding: 0;
         }
 
         .participants-grid {
@@ -387,10 +391,6 @@
             grid-template-columns: repeat(4, 1fr);
             gap: 6rem;
             margin-top: 2rem;
-            margin-left: auto;
-            margin-right: auto;
-            width: fit-content;
-            max-width: calc(100% - 240px);
         }
 
         .participant-card {
@@ -763,8 +763,9 @@
 
         <!-- 참여 학생 -->
         <section class="section participants-section" id="participants">
-            <h2 class="section-title">참여 학생</h2>
-            <div class="participants-grid">
+            <div class="participants-wrapper">
+                <h2 class="section-title">참여 학생</h2>
+                <div class="participants-grid">
                 <div class="participant-card">
                     <div class="participant-flip-container">
                         <div class="participant-flip-inner">
@@ -997,6 +998,7 @@
                     </div>
                     <div class="participant-name">홍채연 <span class="participant-name-en">| Hong Chaeyeon</span></div>
                     <div class="participant-email">qwer00850880@kookmin.ac.kr</div>
+                </div>
                 </div>
             </div>
         </section>
