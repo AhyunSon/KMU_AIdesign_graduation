@@ -384,7 +384,7 @@
 
         .participants-grid {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
+            grid-template-columns: repeat(4, 1fr);
             gap: 6rem;
             margin-top: 2rem;
             margin-left: auto;
@@ -407,6 +407,10 @@
             perspective: 1000px;
             cursor: pointer;
             position: relative;
+        }
+
+        .participant-flip-container.no-flip {
+            cursor: default;
         }
 
         .participant-flip-inner {
@@ -543,7 +547,7 @@
 
         @media screen and (max-width: 1400px) {
             .participants-grid {
-                grid-template-columns: repeat(3, 1fr);
+                grid-template-columns: repeat(4, 1fr);
                 gap: 1.5rem;
             }
         }
@@ -983,12 +987,23 @@
                     <div class="participant-name">임유리 <span class="participant-name-en">| Lim Yuri</span></div>
                     <div class="participant-email">vring000@kookmin.ac.kr</div>
                 </div>
+                <div class="participant-card">
+                    <div class="participant-flip-container no-flip">
+                        <div class="participant-flip-inner">
+                            <div class="participant-flip-front">
+                                <img loading="lazy" src="홍채연_pf.webp" alt="홍채연" class="participant-photo">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="participant-name">홍채연 <span class="participant-name-en">| Hong Chaeyeon</span></div>
+                    <div class="participant-email">qwer00850880@kookmin.ac.kr</div>
+                </div>
             </div>
         </section>
 
         <!-- Credit Section -->
         <section class="section credit-section" id="credit">
-            <img src="credit.webp" alt="Credit" class="credit-image" loading="lazy">
+            <img src="credit.svg" alt="Credit" class="credit-image" loading="lazy">
         </section>
 
         <!-- Footer -->
@@ -1030,9 +1045,9 @@
 
         // Participant card flip functionality
         document.addEventListener('DOMContentLoaded', function() {
-            // Initialize flip containers
-            const flipContainers = document.querySelectorAll('.participant-flip-container');
-            
+            // Initialize flip containers (exclude no-flip)
+            const flipContainers = document.querySelectorAll('.participant-flip-container:not(.no-flip)');
+
             flipContainers.forEach(container => {
                 container.addEventListener('click', function(e) {
                     e.stopPropagation();
