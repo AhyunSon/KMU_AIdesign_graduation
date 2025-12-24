@@ -535,22 +535,87 @@
                 font-size: 1.5rem;
             }
 
-            .photo-gallery {
-                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-                gap: 1rem;
+            .gallery-container {
+                margin: 0 1rem;
             }
 
-            .lightbox img {
-                max-width: 95%;
-                max-height: 95%;
+            .preview-container {
+                aspect-ratio: 4/3;
+            }
+
+            .photo-gallery {
+                grid-template-columns: repeat(6, 1fr);
+                gap: 0.5rem;
+            }
+
+            .photo-item {
+                border-radius: 4px;
+            }
+
+            .lightbox {
+                padding: 1rem;
+            }
+
+            .lightbox-image-container {
+                flex: 1;
+                min-height: 0;
+            }
+
+            .lightbox img#lightboxImg {
+                max-width: 100%;
+                max-height: 100%;
+            }
+
+            .lightbox-thumbnails {
+                grid-template-columns: repeat(6, 1fr);
+                gap: 0.3rem;
+                margin-top: 1rem;
+            }
+
+            .lightbox-thumb {
+                border-radius: 2px;
             }
 
             .lightbox-close {
-                top: 1rem;
-                right: 1rem;
+                top: 0.5rem;
+                right: 0.5rem;
+                width: 36px;
+                height: 36px;
+                font-size: 1.2rem;
+            }
+
+            .lightbox-nav {
+                width: 36px;
+                height: 36px;
+            }
+
+            .lightbox-prev {
+                left: 0.5rem;
+            }
+
+            .lightbox-next {
+                right: 0.5rem;
+            }
+
+            .preview-nav {
+                width: 36px;
+                height: 36px;
+            }
+
+            .preview-fullscreen {
                 width: 40px;
                 height: 40px;
-                font-size: 1.5rem;
+                font-size: 1.2rem;
+            }
+        }
+
+        @media screen and (max-width: 480px) {
+            .photo-gallery {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .lightbox-thumbnails {
+                grid-template-columns: repeat(3, 1fr);
             }
         }
     </style>
@@ -657,19 +722,24 @@
 
         let currentImageIndex = 0;
         let imageList = [];
-        const IMAGES_PER_PAGE = 6;
+
+        // 화면 크기에 따른 페이지당 이미지 수
+        function getImagesPerPage() {
+            return window.innerWidth <= 480 ? 3 : 6;
+        }
 
         // 현재 페이지 계산
         function getCurrentPage() {
-            return Math.floor(currentImageIndex / IMAGES_PER_PAGE);
+            return Math.floor(currentImageIndex / getImagesPerPage());
         }
 
         // 현재 페이지의 썸네일 업데이트
         function updateThumbnails() {
             const gallery = document.getElementById('photoGallery');
+            const imagesPerPage = getImagesPerPage();
             const currentPage = getCurrentPage();
-            const startIndex = currentPage * IMAGES_PER_PAGE;
-            const endIndex = Math.min(startIndex + IMAGES_PER_PAGE, imageList.length);
+            const startIndex = currentPage * imagesPerPage;
+            const endIndex = Math.min(startIndex + imagesPerPage, imageList.length);
 
             gallery.innerHTML = '';
 
@@ -692,9 +762,10 @@
         // 라이트박스 썸네일 업데이트
         function updateLightboxThumbnails() {
             const container = document.getElementById('lightboxThumbnails');
+            const imagesPerPage = getImagesPerPage();
             const currentPage = getCurrentPage();
-            const startIndex = currentPage * IMAGES_PER_PAGE;
-            const endIndex = Math.min(startIndex + IMAGES_PER_PAGE, imageList.length);
+            const startIndex = currentPage * imagesPerPage;
+            const endIndex = Math.min(startIndex + imagesPerPage, imageList.length);
 
             container.innerHTML = '';
 
@@ -835,7 +906,7 @@
                 updateThumbnails();
             } else {
                 // 활성 썸네일 업데이트
-                const startIndex = newPage * IMAGES_PER_PAGE;
+                const startIndex = newPage * getImagesPerPage();
                 document.querySelectorAll('.photo-item').forEach((item, i) => {
                     item.classList.toggle('active', (startIndex + i) === currentImageIndex);
                 });
@@ -905,7 +976,7 @@
                 updateLightboxThumbnails();
             } else {
                 // 활성 썸네일만 업데이트
-                const startIndex = newPage * IMAGES_PER_PAGE;
+                const startIndex = newPage * getImagesPerPage();
                 document.querySelectorAll('.photo-item').forEach((item, i) => {
                     item.classList.toggle('active', (startIndex + i) === currentImageIndex);
                 });
@@ -928,6 +999,20 @@
 
         // 페이지 로드 시 갤러리 이미지 로드
         window.addEventListener('load', loadGalleryImages);
+
+        // 화면 크기 변경 시 썸네일 다시 렌더링
+        let resizeTimeout;
+        window.addEventListener('resize', function() {
+            clearTimeout(resizeTimeout);
+            resizeTimeout = setTimeout(() => {
+                if (imageList.length > 0) {
+                    updateThumbnails();
+                    if (document.getElementById('lightbox').classList.contains('active')) {
+                        updateLightboxThumbnails();
+                    }
+                }
+            }, 250);
+        });
     </script>
 </body>
 </html>
