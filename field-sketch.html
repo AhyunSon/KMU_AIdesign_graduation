@@ -398,18 +398,29 @@
             height: 100%;
             background-color: rgba(0, 0, 0, 0.95);
             z-index: 2000;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             cursor: pointer;
+            padding: 2rem;
         }
 
         .lightbox.active {
             display: flex;
         }
 
-        .lightbox img {
+        .lightbox-image-container {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            min-height: 0;
+        }
+
+        .lightbox img#lightboxImg {
             max-width: 90%;
-            max-height: 90%;
+            max-height: 100%;
             object-fit: contain;
             border-radius: 8px;
         }
@@ -469,15 +480,13 @@
 
         /* 라이트박스 썸네일 스트립 */
         .lightbox-thumbnails {
-            position: absolute;
-            bottom: 2rem;
-            left: 50%;
-            transform: translateX(-50%);
             display: grid;
             grid-template-columns: repeat(6, 1fr);
             gap: 0.5rem;
             max-width: 600px;
             width: 90%;
+            margin-top: 1.5rem;
+            flex-shrink: 0;
         }
 
         .lightbox-thumb {
@@ -620,7 +629,9 @@
         <div class="lightbox-close">×</div>
         <div class="lightbox-nav lightbox-prev" onclick="navigateLightbox(event, -1)">◀</div>
         <div class="lightbox-nav lightbox-next" onclick="navigateLightbox(event, 1)">▶</div>
-        <img id="lightboxImg" src="" alt="확대 이미지">
+        <div class="lightbox-image-container" onclick="event.stopPropagation()">
+            <img id="lightboxImg" src="" alt="확대 이미지" onclick="closeLightbox()">
+        </div>
         <div class="lightbox-thumbnails" id="lightboxThumbnails" onclick="event.stopPropagation()">
             <!-- 썸네일이 동적으로 추가됩니다 -->
         </div>
