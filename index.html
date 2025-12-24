@@ -218,13 +218,31 @@
     }
 
     /* Responsive */
+    /* 모바일 안내 문구 */
+    .mobile-notice {
+      display: none;
+      position: absolute;
+      bottom: 70px;
+      left: 0;
+      right: 0;
+      text-align: center;
+      z-index: 10;
+      padding: 0 20px;
+    }
+
+    .mobile-notice p {
+      font-size: 12px;
+      color: rgba(255, 255, 255, 0.7);
+      line-height: 1.5;
+    }
+
     @media (max-width: 768px) {
       .title-image {
-        max-width: 70%;
+        max-width: 80%;
         top: 30%;
       }
       .text-container {
-        max-width: 70%;
+        max-width: 80%;
         top: 48%;
       }
       .start-button {
@@ -232,6 +250,9 @@
       }
       .info-container {
         top: 72%;
+      }
+      .mobile-notice {
+        display: block;
       }
     }
 
@@ -246,22 +267,28 @@
 
     @media (max-width: 480px) {
       .title-image {
-        max-width: 85%;
-        top: 28%;
+        max-width: 90%;
+        top: 25%;
       }
       .text-container {
-        max-width: 85%;
-        top: 45%;
+        max-width: 90%;
+        top: 43%;
       }
       .start-button {
         font-size: 20px;
       }
       .info-container {
-        top: 65%;
+        top: 62%;
       }
       .footer-text {
-        font-size: 14px;
+        font-size: 12px;
         padding: 0 10px;
+      }
+      .mobile-notice {
+        bottom: 60px;
+      }
+      .mobile-notice p {
+        font-size: 11px;
       }
     }
   </style>
@@ -327,7 +354,12 @@
 
     <!-- Pixel Transition Overlay -->
     <div class="pixel-overlay" id="pixelOverlay"></div>
-    
+
+    <!-- 모바일 안내 문구 -->
+    <div class="mobile-notice">
+      <p>최적의 관람을 위해 PC 환경에서 접속해주세요.</p>
+    </div>
+
     <div class="footer">
       <div class="footer-text">2025 KMU AI DESIGN GRADUATION EXHIBITION</div>
     </div>
