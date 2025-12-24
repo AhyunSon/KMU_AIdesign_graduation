@@ -830,20 +830,20 @@
         function previousImage(event) {
             event.stopPropagation();
             if (imageList.length === 0) return;
-            
-            currentImageIndex--;
-            if (currentImageIndex < 0) currentImageIndex = imageList.length - 1;
-            selectImage(currentImageIndex);
+
+            let newIndex = currentImageIndex - 1;
+            if (newIndex < 0) newIndex = imageList.length - 1;
+            selectImage(newIndex);
         }
 
         // 다음 이미지
         function nextImage(event) {
             event.stopPropagation();
             if (imageList.length === 0) return;
-            
-            currentImageIndex++;
-            if (currentImageIndex >= imageList.length) currentImageIndex = 0;
-            selectImage(currentImageIndex);
+
+            let newIndex = currentImageIndex + 1;
+            if (newIndex >= imageList.length) newIndex = 0;
+            selectImage(newIndex);
         }
 
         // 전체보기 (라이트박스)
